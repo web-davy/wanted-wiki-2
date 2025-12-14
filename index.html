@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WANTED WIKI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="stripes"></div>
+    <div class="scanlines"></div>
+    <div class="static"></div>
+    <div class="dust"></div>
+
+    <div id="garage-intro" class="garage-intro">
+        <div id="garage-door-mover" class="garage-door-mover">
+            <div class="garage-door">
+                <div class="door-panel panel1"></div>
+                <div class="door-panel panel2"></div>
+                <div class="door-panel panel3"></div>
+                <div class="door-panel panel4"></div>
+            </div>
+        </div>
+        <div id="click-prompt" class="click-prompt">CLICK TO ENTER</div>
+    </div>
+    
+    <header class="fixed-header">
+        <h1 class="neon-title">WANTED</h1>
+        <nav class="top-tabs">
+            <div class="tab" data-page="home">HOME</div>
+            <div class="tab" data-page="valuables">VALUABLEs</div>
+            <div class="tab" data-page="atms">ATMs</div>
+            <div class="tab" data-page="weapons">WEAPONs</div>
+            <div class="tab" data-page="vehicles">VEHICLEs</div>
+
+<!--            <div class="tab" data-page="missions">MISSIONs</div> -->
+<!--            <div class="tab" data-page="npcs">NPCs</div> -->
+<!--            <div class="tab" data-page="locations">LOCATIONs</div> -->
+
+        </nav>
+        <div class="volume-control">
+            <label for="bgm-volume">Background Volume</label>
+            <input type="range" id="bgm-volume" min="0" max="1" step="0.01" value="0.4">
+        </div>
+    </header>
+
+    <div class="page-wrapper">
+        <main class="content">
+            <div id="page-container">
+                <div class="loading glitch">ARCHIVE OFFLINE</div>
+            </div>
+        </main>
+    </div>
+
+    <a href="https://discord.gg/3NqFCz5sRx" class="bottom-corner-link">Support/Community Server</a>
+
+    <audio id="bgm" src="sounds/background.mp3" loop preload="auto"></audio>
+    <audio id="sfx-click" src="sounds/click.mp3" preload="auto"></audio>
+    <audio id="sfx-hover" src="sounds/hover.mp3" preload="auto"></audio>
+    <audio id="sfx-load" src="sounds/load.mp3" preload="auto"></audio>
+
+    <script defer src="valuables.js"></script>
+    <script defer src="weapons.js"></script>
+    <script defer src="atms.js"></script>
+    <script defer src="vehicles.js"></script>
+    <script defer src="script.js"></script>
+
+<!--    <script defer src="missions.js"></script> -->
+<!--    <script defer src="npcs.js"></script> -->
+<!--    <script defer src="locations.js"></script> -->
+
+</body>
+</html>
