@@ -188,12 +188,18 @@ body::after{
 .price-tag{left:8px;color:#0f0;border-color:#0f0;box-shadow:0 0 12px #0f0;text-shadow:0 0 8px #0f0}
 
 .rarity-common{color:#999;border-color:#999}
-.rarity-uncommon,.rarity-easy,.rarity-neutral{color:#0f0;border-color:#0f0;text-shadow:0 0 10px #0f0}
+.rarity-uncommon{color:#0f0;border-color:#0f0;text-shadow:0 0 10px #0f0}
 .rarity-epic{color:#c0f;border-color:#c0f}
-.rarity-legendary,.rarity-hard{color:#ff0;border-color:#ff0;text-shadow:0 0 15px #ff0}
-.rarity-mythic,.rarity-criminal{color:#f00;border-color:#f00;text-shadow:0 0 10px #f00}
-.rarity-extreme{text-shadow:0 0 15px #ff0}
+.rarity-legendary{color:#ff0;border-color:#ff0;text-shadow:0 0 15px #ff0}
+.rarity-mythic{color:#f00;border-color:#f00;text-shadow:0 0 10px #f00}
+
+.rarity-easy{color:#0f0;border-color:#0f0;text-shadow:0 0 10px #0f0}
+.rarity-medium{color:#ff0;border-color:#ff0;text-shadow:0 0 15px #ff0}
+.rarity-hard{color:#f00;border-color:#f00;text-shadow:0 0 10px #f00}
+
+.rarity-neutral{color:#0f0;border-color:#0f0;text-shadow:0 0 10px #0f0}
 .rarity-police{color:#00f;border-color:#00f;text-shadow:0 0 10px #00f}
+.rarity-criminal{color:#f00;border-color:#f00;text-shadow:0 0 10px #f00}
 .rarity-christmas-limited{color:#0f0;border-color:#f00}
 
 h2{
