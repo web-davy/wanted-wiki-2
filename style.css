@@ -364,22 +364,28 @@ h2{
 }
 
 @media(max-width:500px){
-    .neon-title{letter-spacing:4px; font-size:clamp(1.5rem, 8vw, 2.5rem);}
+    .neon-title{
+        letter-spacing:4px; 
+        font-size:clamp(1.5rem, 8vw, 2.5rem);
+    }
     
     .top-tabs{
-        flex-direction:column;
-        align-items:stretch;
+        flex-direction:row;
+        flex-wrap:wrap;
+        justify-content:center;
         gap:6px;
     }
     
     .tab{
-        width:auto;
+        flex:1 1 auto;
         text-align:center;
-        font-size:.9rem;
+        font-size:.8rem;
         padding:8px 10px;
     }
     
-    .page-wrapper{padding-top:190px} 
+    .page-wrapper{
+        padding-top:140px;
+    } 
     
     .card-grid{
         grid-template-columns:1fr;
