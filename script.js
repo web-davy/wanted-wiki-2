@@ -48,8 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (garageIntro) garageIntro.remove();
         }, 3300);
 
-        const homeTab = document.querySelector('.tab[data-page="home"]');
-        if (homeTab) homeTab.classList.add("active");
+        document.querySelector('.tab[data-page="home"]').classList.add("active");
         loadPage("home");
     };
 
@@ -107,18 +106,16 @@ document.addEventListener("DOMContentLoaded", () => {
             loadSfx.play().catch(() => {});
         }
         
-        setTimeout(() => {
-            let content = "";
-            if (page === "home" && typeof renderHome === "function") content = renderHome();
-            else if (page === "valuables" && typeof renderValuables === "function") content = renderValuables();
-            else if (page === "atms" && typeof renderATMs === "function") content = renderATMs();
-            else if (page === "weapons" && typeof renderWeapons === "function") content = renderWeapons();
-            else if (page === "vehicles" && typeof renderVehicles === "function") content = renderVehicles();
-            else if (page === "missions" && typeof renderMissions === "function") content = renderMissions();
-            else if (page === "npcs" && typeof renderNPCs === "function") content = renderNPCs();
-            else if (page === "locations" && typeof renderLocations === "function") content = renderLocations();
-            else content = `<h2>Work In Progress</h2><p style="text-align:center">Under construction...</p>`;
-            container.innerHTML = content;
-        }, 300);
+        let content = "";
+        if (page === "home" && typeof renderHome === "function") content = renderHome();
+        else if (page === "valuables" && typeof renderValuables === "function") content = renderValuables();
+        else if (page === "atms" && typeof renderATMs === "function") content = renderATMs();
+        else if (page === "weapons" && typeof renderWeapons === "function") content = renderWeapons();
+        else if (page === "vehicles" && typeof renderVehicles === "function") content = renderVehicles();
+        else if (page === "missions" && typeof renderMissions === "function") content = renderMissions();
+        else if (page === "npcs" && typeof renderNPCs === "function") content = renderNPCs();
+        else if (page === "locations" && typeof renderLocations === "function") content = renderLocations();
+        else content = `<h2>Work In Progress</h2><p style="text-align:center">Under construction...</p>`;
+        container.innerHTML = content;
     }
 });
