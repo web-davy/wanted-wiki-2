@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
     const container = document.getElementById("page-container");
     const garageIntro = document.getElementById("garage-intro");
+    const clickPrompt = document.getElementById("click-prompt");
+    const terminal = document.querySelector(".biometric-terminal");
     const bgm = document.getElementById("bgm");
     const clickSfx = document.getElementById("sfx-click");
     const hoverSfx = document.getElementById("sfx-hover");
@@ -19,6 +21,9 @@ document.addEventListener("DOMContentLoaded", () => {
     window.openGarage = () => {
         if (audioUnlocked) return;
         audioUnlocked = true;
+
+        if (terminal) terminal.style.display = "none";
+        if (clickPrompt) clickPrompt.style.display = "none";
 
         if (garageIntro) garageIntro.classList.add("open");
        
