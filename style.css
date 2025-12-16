@@ -17,6 +17,7 @@ html,body{
     background:var(--bg);
     color:var(--fg);
     font-family:'Courier New',monospace;
+    overflow-x:hidden;
 }
 
 .stripes,
@@ -237,7 +238,6 @@ h2{
     opacity:0;
 }
 
-/* 1. Define the white color locally to override any global 'red' variables */
 .volume-control {
     --fg: #ffffff; 
     position: fixed;
@@ -263,14 +263,14 @@ h2{
     align-items: center;
     justify-content: center;
     font-size: 1.2rem;
-    color: #fff !important; /* Force white */
+    color: #fff !important;
     text-shadow: 0 0 5px #fff;
     pointer-events: none;
 }
 
 .volume-control:hover,
 .volume-control:focus-within {
-    width: 250px;
+    width: 200px;
     border-color: #fff !important;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
@@ -288,8 +288,6 @@ h2{
     margin: 0 10px;
 }
 
-/* 2. Style the "Thumb" (the moving knob) to be white */
-/* For Chrome, Safari, and Edge */
 .volume-control input[type=range]::-webkit-slider-thumb {
     appearance: none;
     height: 14px;
@@ -300,7 +298,6 @@ h2{
     box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
 }
 
-/* For Firefox */
 .volume-control input[type=range]::-moz-range-thumb {
     height: 14px;
     width: 14px;
@@ -390,19 +387,87 @@ h2{
     border-top: 3px solid #000;
 }
 
-.scanner-line {
+.biometric-terminal {
     position: absolute;
-    width: 100%;
-    height: 2px;
-    background: rgba(255, 0, 0, 0.6);
-    box-shadow: 0 0 15px red;
-    top: 0;
-    z-index: 100000;
-    animation: scan-move 3s linear infinite;
+    z-index: 100001;
+    right: 10%;
+    top: 55%;
+    transform: translateY(-50%);
+    padding: 15px;
+    background: #0a0a0a;
+    border: 2px solid #333;
+    border-radius: 8px;
+    box-shadow: 0 0 30px rgba(0,0,0,1), inset 0 0 15px rgba(0,255,0,0.05);
 }
 
-.garage-intro.open .scanner-line {
-    display: none;
+.hand-scanner {
+    width: 90px;
+    height: 130px;
+    background: #111;
+    border: 1px solid #444;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s;
+}
+
+.hand-scanner:hover {
+    border-color: #0f0;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+}
+
+.hand-scanner .fingerprint {
+    width: 60px;
+    height: auto;
+    filter: sepia(1) saturate(10) hue-rotate(90deg) opacity(0.3);
+    transition: 0.3s;
+    user-select: none;
+}
+
+.hand-scanner:hover .fingerprint {
+    filter: sepia(1) saturate(10) hue-rotate(90deg) opacity(0.8);
+    animation: pulse 1.5s infinite;
+}
+
+.hand-scanner .scan-line {
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(to bottom, transparent, #0f0, transparent);
+    box-shadow: 0 0 15px #0f0;
+    top: -10%;
+    left: 0;
+    animation: scan-vertical 2s linear infinite;
+}
+
+.terminal-header {
+    font-size: 8px;
+    color: #0f0;
+    margin-bottom: 8px;
+    text-align: center;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.status-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+    margin-top: 10px;
+}
+
+.status-dot {
+    height: 4px;
+    background: #300;
+    border-radius: 2px;
+}
+
+.hand-scanner:hover ~ .status-grid .status-dot {
+    background: #030;
+    animation: status-blink 0.5s infinite alternate;
 }
 
 .click-prompt{
@@ -432,17 +497,14 @@ h2{
     transition:.2s;
 }
 
-@keyframes scan-move {
-    0% { top: 0%; }
-    100% { top: 100%; }
+@keyframes scan-vertical {
+    0% { top: -10%; }
+    100% { top: 110%; }
 }
 
-@keyframes garage-shudder {
-    0% { transform: translateY(0); }
-    2% { transform: translateY(-5px); }
-    4% { transform: translateY(0); }
-    6% { transform: translateY(-3px); }
-    8% { transform: translateY(0); }
+@keyframes status-blink {
+    0% { opacity: 1; }
+    100% { opacity: 0.3; }
 }
 
 @keyframes policeFlash{0%{opacity:0}10%{opacity:1}25%,50%,100%{opacity:0}}
@@ -459,8 +521,17 @@ h2{
     100%{opacity:0;transform:none}
 }
 
+@keyframes garage-shudder {
+    0% { transform: translateY(0); }
+    2% { transform: translateY(-4px); }
+    4% { transform: translateY(0); }
+    6% { transform: translateY(-2px); }
+    8% { transform: translateY(0); }
+}
+
 @media(max-width:768px){
     .page-wrapper{padding-top:160px}
+    .biometric-terminal { right: 50%; transform: translate(50%, -50%); top: 40%; }
 }
 
 @media(max-width:500px){
