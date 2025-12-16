@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function loadPage(page) {
-        container.innerHTML = '<div class="loading glitch">ACCESSING ENCRYPTED ARCHIVE...</div>';
+        container.innerHTML = '<div class="loading">ACCESSING...</div>';
         
         if (loadSfx && audioUnlocked) {
             loadSfx.currentTime = 0;
@@ -82,42 +82,19 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
             let content = "";
             try {
-                switch(page) {
-                    case "home":
-                        content = typeof renderHome === "function" ? renderHome() : defaultError(page);
-                        break;
-                    case "valuables":
-                        content = typeof renderValuables === "function" ? renderValuables() : defaultError(page);
-                        break;
-                    case "atms":
-                        content = typeof renderATMs === "function" ? renderATMs() : defaultError(page);
-                        break;
-                    case "weapons":
-                        content = typeof renderWeapons === "function" ? renderWeapons() : defaultError(page);
-                        break;
-                    case "vehicles":
-                        content = typeof renderVehicles === "function" ? renderVehicles() : defaultError(page);
-                        break;
-                    case "locations":
-                        content = typeof renderLocations === "function" ? renderLocations() : defaultError(page);
-                        break;
-                    case "npcs":
-                        content = typeof renderNPCs === "function" ? renderNPCs() : defaultError(page);
-                        break;
-                    case "missions":
-                        content = typeof renderMissions === "function" ? renderMissions() : defaultError(page);
-                        break;
-                    default:
-                        content = defaultError(page);
-                }
+                if (page === "home" && typeof renderHome === "function") content = renderHome();
+                else if (page === "valuables" && typeof renderValuables === "function") content = renderValuables();
+                else if (page === "atms" && typeof renderATMs === "function") content = renderATMs();
+                else if (page === "weapons" && typeof renderWeapons === "function") content = renderWeapons();
+                else if (page === "vehicles" && typeof renderVehicles === "function") content = renderVehicles();
+                else if (page === "locations" && typeof renderLocations === "function") content = renderLocations();
+                else if (page === "npcs" && typeof renderNPCs === "function") content = renderNPCs();
+                else if (page === "missions" && typeof renderMissions === "function") content = renderMissions();
+                else content = `<h2>NOT FOUND</h2>`;
             } catch (err) {
-                content = `<div class="error-msg"><h2>DECRYPTION FAILED</h2><p>${err.message}</p></div>`;
+                content = `<h2>ERROR</h2>`;
             }
             container.innerHTML = content;
         }, 400);
-    }
-
-    function defaultError(page) {
-        return `<h2>ARCHIVE NOT FOUND</h2><p>The module for [${page.toUpperCase()}] is missing or corrupted.</p>`;
     }
 });
