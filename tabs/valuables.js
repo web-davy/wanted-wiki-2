@@ -9,8 +9,6 @@ const valuables = [
     { name: "White Ornament", rarity: "Christmas-Limited", price: 0, pricenc: 15000, weight: 1 },
 
     { name: "Bank Cash Pile", rarity: "Common", price: 200, weight: 0 },
-    { name: "Silver Bar", rarity: "Common", price: 300, weight: 2 },
-    { name: "PearWatch", rarity: "Common", price: 300, weight: 2 },
     { name: "Silver Bar", rarity: "Common", price: 250, weight: 2 },
     { name: "PearWatch", rarity: "Common", price: 200, weight: 2 },
     { name: "HDD", rarity: "Common", price: 400, weight: 2 },
@@ -18,13 +16,11 @@ const valuables = [
     { name: "PearPad", rarity: "Common", price: 600, weight: 3 },
     { name: "GoldPhone", rarity: "Common", price: 700, weight: 2 },
     { name: "PSU", rarity: "Common", price: 800, weight: 6 },
-    { name: "Gold Bar", rarity: "Uncommon", price: 500, weight: 2 },
     { name: "Gold Bar", rarity: "Uncommon", price: 400, weight: 2 },
     { name: "GoldWatch", rarity: "Uncommon", price: 600, weight: 2 },
     { name: "GoldPods", rarity: "Uncommon", price: 600, weight: 3 },
     { name: "PearBook", rarity: "Uncommon", price: 1100, weight: 6 },
     { name: "Flash Drive", rarity: "Uncommon", price: 1200, weight: 1 },
-    { name: "GoldPad", rarity: "Epic", price: 900, weight: 3 },
     { name: "GoldPad", rarity: "Epic", price: 800, weight: 3 },
     { name: "GoldBook", rarity: "Epic", price: 1800, weight: 6 },
     { name: "Military Cash Pile", rarity: "Epic", price: 2500, weight: 0 },
@@ -131,4 +127,5 @@ function sortValuables(order) {
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("page-container").innerHTML = renderValuables("high");
 });
+
 
