@@ -180,7 +180,7 @@ function renderHome() {
                         <div style="opacity: 0.5; font-size: 1rem;">Insert boot media and restart</div>
                     </div>
                 `;
-            }, 5000);
+            }, 2100);
         };
 
         const commands = {
@@ -357,4 +357,5 @@ function renderHome() {
         </div>
     `;
 }
+
 
