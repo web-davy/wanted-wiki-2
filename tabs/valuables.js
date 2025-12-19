@@ -20,10 +20,10 @@ const valuables = [
     { name: "Gold Bar", rarity: "Uncommon", price: 500, weight: 2 },
     { name: "GoldWatch", rarity: "Uncommon", price: 600, weight: 2 },
     { name: "GoldPods", rarity: "Uncommon", price: 600, weight: 3 },
-    { name: "PearBook", rarity: "Uncommon", price: 1100, weight: 6 },
+    { name: "PearBook", rarity: "Uncommon", price: 1000, weight: 6 },
     { name: "Flash Drive", rarity: "Uncommon", price: 1200, weight: 1 },
     { name: "GoldPad", rarity: "Epic", price: 900, weight: 3 },
-    { name: "GoldBook", rarity: "Epic", price: 1800, weight: 6 },
+    { name: "GoldBook", rarity: "Epic", price: 1500, weight: 6 },
     { name: "Military Cash Pile", rarity: "Epic", price: 2500, weight: 0 },
     { name: "Sapphire", rarity: "Epic", price: 2500, weight: 4 },
     { name: "Secret Files", rarity: "Epic", price: 5000, weight: 2 },
@@ -94,5 +94,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("page-container").innerHTML = renderValuables("high");
 
 });
+
 
 
