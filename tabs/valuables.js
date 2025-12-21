@@ -75,7 +75,7 @@ function renderValuables(sort = "high") {
         html += `
             <div class="card">
                 <img src="images/${slug}.jpg" alt="${v.name}" style="width:100%;height:auto;margin-bottom:15px;border-radius:4px;box-shadow:0 0 10px rgba(255,255,255,0.2);">
-                <div class="rarity rarity-${safeRarity}">${v.rarity.toUpperCase()}</div>
+                <div class="rarity rarity-${safeRarity}">${v.rarity}</div>
                 <h3>${v.name}</h3>
                 <p><strong>Price:</strong> $${getDisplayPrice(v).toLocaleString()}</p>
                 <p><strong>Weight:</strong> ${v.weight} kg</p>
@@ -92,8 +92,4 @@ function sortValuables(order) {
 
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("page-container").innerHTML = renderValuables("high");
-
 });
-
-
-
