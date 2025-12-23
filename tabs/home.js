@@ -11,6 +11,7 @@ function renderHome() {
         let historyIndex = -1;
         let sudoMode = false;
         let isDead = false;
+
         const typeWrite = (text, color = "#39ff14", speed = 12) => {
             return new Promise(resolve => {
                 const line = document.createElement("div");
@@ -29,6 +30,7 @@ function renderHome() {
                 }, speed);
             });
         };
+
         const instantBlock = (html, color = "#ffffff") => {
             const div = document.createElement("div");
             div.style.color = color;
@@ -37,6 +39,7 @@ function renderHome() {
             history.appendChild(div);
             history.scrollTop = history.scrollHeight;
         };
+
         const progressBar = (label, color = "#39ff14") => {
             return new Promise(resolve => {
                 let progress = 0;
@@ -60,6 +63,7 @@ function renderHome() {
                 }, 60);
             });
         };
+
         const powerOffSequence = async () => {
             if (isDead) return;
             isDead = true;
@@ -167,9 +171,10 @@ function renderHome() {
                 `;
             }, 2100);
         };
+
         const commands = {
             async help() {
-                await typeWrite("Available commands: help clear status uptime whoami date pwd ls echo connect scan sudo sshnuke exit");
+                await typeWrite("Available commands: help clear status uptime whoami date pwd ls echo connect scan sudo sshnuke mostwanted exit");
             },
             clear() {
                 history.innerHTML = "";
@@ -230,13 +235,81 @@ function renderHome() {
                 }
                 setTimeout(powerOffSequence, 800);
             },
+            async mostwanted() {
+                await typeWrite("Accessing criminal database...", "#39ff14");
+                await progressBar("Retrieving profile from Oasis Security Database");
+                
+                const posterStyle = `
+                    <div style="
+                        margin: 15px auto;
+                        padding: 10px;
+                        width: 380px;
+                        background: #f4e4bc;
+                        border: 5px double #4a3728;
+                        color: #2b1d0e;
+                        font-family: 'Courier New', serif;
+                        box-shadow: 0 0 15px rgba(0,0,0,0.5);
+                        transform: rotate(-0.3deg);
+                    ">
+                        <div style="text-align: center; border-bottom: 2px solid #4a3728; margin-bottom: 10px;">
+                            <div style="font-size: 1.6rem; font-weight: 900; letter-spacing: 3px; line-height: 1;">WANTED</div>
+                            <div style="font-size: 0.7rem; font-weight: bold; text-transform: uppercase; margin-bottom: 4px;">Oasis Security Department</div>
+                        </div>
+
+                        <div style="display: flex; gap: 12px; align-items: flex-start;">
+                            <div style="flex: 0 0 35%; text-align: center;">
+                                <div style="border: 3px solid #4a3728; background: #fff; line-height: 0; margin-bottom: 4px;">
+                                    <img src="https://rbx.how/user/29734938" style="width: 100%; filter: sepia(0.6) contrast(1.1) grayscale(0.2);" alt="Most Wanted">
+                                </div>
+                                <div style="background: #4a3728; color: #f4e4bc; font-weight: bold; padding: 2px; font-size: 0.7rem; text-transform: uppercase;">
+                                    Dead or Alive
+                                </div>
+                            </div>
+
+                            <div style="flex: 1; text-align: left; font-size: 0.75rem;">
+                                <div style="margin-bottom: 8px;">
+                                    <span style="font-weight: 900; text-transform: uppercase;">Alias:</span>
+                                    <span style="font-size: 0.9rem; font-weight: bold; display: block;">"RedRuby"</span>
+                                </div>
+
+                                <div style="margin-bottom: 8px;">
+                                    <div style="font-weight: 900; text-transform: uppercase; border-bottom: 1px solid #4a3728; font-size: 0.65rem;">Charges:</div>
+                                    <ul style="margin: 3px 0 0 12px; padding: 0; list-style-type: square; font-size: 0.65rem; line-height: 1.2;">
+                                        <li>Illegal Fireweapons</li>
+                                        <li>Money Laundering</li>
+                                        <li>Evading Authorities</li>
+                                        <li>Painting Cabbages Red</li>
+                                        <li>... & 611 more</li>
+                                    </ul>
+                                </div>
+
+                                <div style="background: rgba(74, 55, 40, 0.1); padding: 5px; border: 1px solid #4a3728; margin-bottom: 8px; text-align: center;">
+                                    <div style="font-weight: 900; text-transform: uppercase; font-size: 0.9rem;">BOUNTY: $42M</div>
+                                </div>
+
+                                <div style="font-weight: bold; font-size: 0.6rem; color: #800000; border: 1px dashed #800000; padding: 4px; text-align: center;">
+                                    EXTREMELY DANGEROUS
+                                </div>
+                            </div>
+                        </div>
+                        <div style="font-size: 0.5rem; margin-top: 8px; text-align: center; opacity: 0.6; border-top: 1px solid #4a3728; padding-top: 3px;">
+                            CASE ID: 29734938 // PRIORITY: MAX
+                        </div>
+                    </div>
+                `;
+                
+                instantBlock(posterStyle);
+                await typeWrite("Subject found.", "#39ff14");
+            },
             async exit() {
                 await typeWrite("logout");
             }
         };
+
         const updatePrompt = () => {
             document.querySelector(".prompt-span").textContent = `ruby@wanted:${cwd}$`;
         };
+
         input.addEventListener("keydown", async (e) => {
             if (isDead) return;
             if (e.key === "ArrowUp") {
@@ -280,6 +353,7 @@ function renderHome() {
             }
         });
     }, 0);
+
     return `
         <div style="min-height: 100vh; background: black; display: flex; flex-direction: column; font-family: 'Courier New', monospace;">
             <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; text-align: center; color: white; position: relative; overflow: hidden;">
