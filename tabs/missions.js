@@ -94,7 +94,7 @@ const missions = [
         location: "Park", 
         desc: "I was flying over the mountains into the city and a gust of wind knocked my sleigh and presents out of the sky! Please, help me find them! Christmas depends on it!", 
         req: ["Criminal/Syndicate/Police team"], 
-        how: "Give Santa 1 small/big/huge present", 
+        how: "Give Santa 1 Small/Big/Huge Present", 
         difficulty: "Christmas-Limited", 
         reward: "$25.000" 
     },
@@ -103,7 +103,7 @@ const missions = [
         location: "Park", 
         desc: "It turns out there were some priceless toys in this year's presents that I can't afford to lose. Bring them back to me and I'll make it worth your while!", 
         req: ["Criminal/Syndicate/Police team"], 
-        how: "Give Santa 1 nutcracker/candycane/", 
+        how: "Give Santa 1 Nutcracker/Candycane", 
         difficulty: "Christmas-Limited", 
         reward: "$60.000 and LED Reindeer Furniture" 
     },
