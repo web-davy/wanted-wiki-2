@@ -1,6 +1,6 @@
 # 🤠 Wanted Wiki
 
-Welcome to the official repository for the **Wanted** Wiki! This project is dedicated to documenting everything within the Roblox game "Wanted"—from weapons and vehicles to map locations.
+Welcome to the official repository for the **Wanted** Wiki! This project is dedicated to documenting everything within the Roblox game "Wanted" from weapons and vehicles to map locations.
 
 ## 📖 About the Project
 This wiki serves as the central hub for players to learn about game mechanics and stay updated on latest patches.
