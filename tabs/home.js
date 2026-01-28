@@ -3,8 +3,6 @@ const UPDATES = [
     { version: "v39877", description: "Added Christmass Event", color: "#39ff14" }
 ];
 
-// Color examples: "#39ff14" (green), "#ff3333" (red), "#00ff00" (bright green), "#ffff00" (yellow)
-
 function renderHome() {
     const updatesHTML = UPDATES.map(update => `
         <div style="display: flex; gap: 10px; padding: 8px 0;">
@@ -17,7 +15,7 @@ function renderHome() {
     `).join('');
 
     return `
-        <div style="min-height: 100vh; background: black; display: flex; flex-direction: column; font-family: 'Courier New', monospace;">
+        <div style="min-height: 100vh; background: transparent; display: flex; flex-direction: column; font-family: 'Courier New', monospace;">
             <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 40px; text-align: center; color: white; position: relative; overflow: hidden;">
                 <div style="position: absolute; inset: 0; background: radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, transparent 70%); pointer-events: none;"></div>
                 <h1 style="font-size: 3rem; letter-spacing: 0.6em; text-transform: uppercase; margin: 0 0 30px 0; color: white; text-shadow: 0 0 10px white, 0 0 20px white, 0 0 40px white, 0 0 80px white; animation: flicker 4s infinite alternate;">WANTED WIKI</h1>
@@ -30,14 +28,13 @@ function renderHome() {
                 </div>
             </div>
 
-            <div style="padding: 20px; display: flex; justify-content: center; background: black;">
+            <div style="padding: 20px; display: flex; justify-content: center; background: transparent;">
                 <div style="width: 100%; max-width: 900px;">
-                    <div style="background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 16px;">
+                    <div style="background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 16px; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);">
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
                             <span style="font-size: 1rem;">⏰</span>
                             <h3 style="font-size: 1rem; letter-spacing: 0.1em; color: white; margin: 0; text-shadow: 0 0 5px white;">RECENT UPDATES</h3>
                         </div>
-
                         <div style="display: flex; flex-direction: column; gap: 8px;">
                             ${updatesHTML}
                         </div>
@@ -45,21 +42,22 @@ function renderHome() {
                 </div>
             </div>
 
-            <div style="background: #000; padding: 60px 20px; color: white; border-top: 1px solid rgba(255,255,255,0.1);">
-                <div style="max-width: 1000px; margin: 0 auto; text-align: center;">
+            <div style="background: transparent; padding: 60px 20px; color: white; position: relative; overflow: hidden;">
+                <div style="position: absolute; inset: 0; background: radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, transparent 70%); pointer-events: none;"></div>
+                <div style="max-width: 1000px; margin: 0 auto; text-align: center; position: relative; z-index: 1;">
                     <div style="margin-bottom: 20px; opacity: 0.8;">
                          <img src="images/wikiadmin.png" alt="Wiki Icon" style="width:100%; max-width:150px; height:auto; margin-bottom:15px; border-radius:4px; box-shadow:0 0 10px rgba(255,255,255,0.2); filter: grayscale(1) invert(1);">
                     </div>
-                    <h2 style="font-size: 2rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 10px;">Administration and Management</h2>
+                    <h2 style="font-size: 2rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 10px; text-shadow: 0 0 10px white;">Administration and Management</h2>
                     <p style="font-size: 1rem; color: #ccc; margin-bottom: 40px; font-family: sans-serif;">Our wiki is currently managed by 1 Manager.</p>
                     
                     <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-bottom: 20px;">
-                        <div style="flex: 1; min-width: 280px; border: 1px solid white; background: #080808; padding: 30px 20px; border-radius: 4px;">
-                            <h3 style="font-size: 0.9rem; letter-spacing: 0.1em; color: white; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px;">WIKI MANAGER</h3>
+                        <div style="flex: 1; min-width: 280px; border: 1px solid rgba(255,255,255,0.3); background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); padding: 30px 20px; border-radius: 4px; box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.3);">
+                            <h3 style="font-size: 0.9rem; letter-spacing: 0.1em; color: white; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 10px;">WIKI MANAGER</h3>
                             <div style="font-size: 1.2rem; font-weight: bold;">DavyDevv</div>
                         </div>
-                        <div style="flex: 1; min-width: 280px; border: 1px solid white; background: #080808; padding: 30px 20px; border-radius: 4px;">
-                            <h3 style="font-size: 0.9rem; letter-spacing: 0.1em; color: white; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px;">WIKI STAFF</h3>
+                        <div style="flex: 1; min-width: 280px; border: 1px solid rgba(255,255,255,0.3); background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); padding: 30px 20px; border-radius: 4px; box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.3);">
+                            <h3 style="font-size: 0.9rem; letter-spacing: 0.1em; color: white; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 10px;">WIKI STAFF</h3>
                             <ul style="list-style: none; padding: 0; margin: 0; font-size: 1.1rem; line-height: 1.6;">
                                 <li> </li>
                             </ul>
@@ -67,8 +65,8 @@ function renderHome() {
                     </div>
 
                     <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
-                        <div style="flex: 1; max-width: 350px; min-width: 280px; border: 1px solid white; background: #080808; padding: 30px 20px; border-radius: 4px;">
-                            <h3 style="font-size: 0.9rem; letter-spacing: 0.1em; color: white; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px;">WIKI CONTRIBUTORS</h3>
+                        <div style="flex: 1; max-width: 350px; min-width: 280px; border: 1px solid rgba(255,255,255,0.3); background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px); padding: 30px 20px; border-radius: 4px; box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.3);">
+                            <h3 style="font-size: 0.9rem; letter-spacing: 0.1em; color: white; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 10px;">WIKI CONTRIBUTORS</h3>
                             <ul style="list-style: none; padding: 0; margin: 0; font-size: 1rem; line-height: 1.6;">
                                 <li> </li>
                             </ul>
