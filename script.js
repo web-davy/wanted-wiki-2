@@ -15,6 +15,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const DEFAULT_VOLUME = 0.1;
     const DEFAULT_SIZE = 200;
+    
+    const lowEndToggle = document.getElementById("low-end-toggle");
+    const savedLowEndMode = localStorage.getItem("lowEndMode") === "true";
+    
+    if (savedLowEndMode) {
+        document.body.classList.add("low-end-mode");
+        if (lowEndToggle) lowEndToggle.classList.add("active");
+    }
+    
+    if (lowEndToggle) {
+        lowEndToggle.addEventListener("click", () => {
+            const isLowEnd = document.body.classList.toggle("low-end-mode");
+            lowEndToggle.classList.toggle("active", isLowEnd);
+            localStorage.setItem("lowEndMode", isLowEnd);
+            
+            if (audioUnlocked && clickSfx) {
+                clickSfx.currentTime = 0;
+                clickSfx.volume = 0.3;
+                clickSfx.play().catch(() => {});
+            }
+        });
+    }
 
     if (volumeSlider) volumeSlider.value = DEFAULT_VOLUME;
     if (bgm) bgm.volume = DEFAULT_VOLUME;
