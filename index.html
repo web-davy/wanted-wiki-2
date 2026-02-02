@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,16 +9,25 @@
     <link rel="icon" type="image/png" href="images/logo.png">
 
     <meta property="og:title" content="Wanted Wiki">
-    <meta property="og:description" content="Welcome to our wiki, here we log all the info about the game Wanted.">
+    <meta property="og:description"
+        content="The official documentation for the Roblox game 'Wanted'. detailed stats for Weapons, Vehicles, Missions, Locations, and more.">
     <meta property="og:url" content="https://davyjonesdevv.github.io/wanted-wiki/">
-    <meta property="og:image" content="https://raw.githubusercontent.com/DavyJonesDevv/wanted-wiki/refs/heads/main/images/logo.png">
-    <meta property="og:site_name" content="Official Website">
+    <meta property="og:image"
+        content="https://raw.githubusercontent.com/DavyJonesDevv/wanted-wiki/refs/heads/main/images/logo.png">
+    <meta property="og:site_name" content="Wanted Wiki">
     <meta property="og:type" content="website">
-    <meta name="theme-color" content="#000001">
+    <meta name="theme-color" content="#39ff14">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Wanted Wiki">
+    <meta name="twitter:description" content="The official documentation for the Roblox game 'Wanted'.">
+    <meta name="twitter:image"
+        content="https://raw.githubusercontent.com/DavyJonesDevv/wanted-wiki/refs/heads/main/images/logo.png">
 
     <link rel="preload" as="image" href="images/background.png" type="image/png">
     <link rel="stylesheet" href="style.css">
-    
+    <link rel="stylesheet" href="mobile.css">
+
     <style>
         .garage-intro::after {
             content: "";
@@ -46,13 +56,11 @@
             bottom: 0;
             width: 100%;
             height: 25px;
-            background: repeating-linear-gradient(
-                45deg,
-                #f1c40f,
-                #f1c40f 15px,
-                #000 15px,
-                #000 30px
-            );
+            background: repeating-linear-gradient(45deg,
+                    #f1c40f,
+                    #f1c40f 15px,
+                    #000 15px,
+                    #000 30px);
             border-top: 3px solid #000;
         }
 
@@ -66,7 +74,7 @@
             background: #0a0a0a;
             border: 2px solid #333;
             border-radius: 8px;
-            box-shadow: 0 0 30px rgba(0,0,0,1), inset 0 0 15px rgba(0,255,0,0.05);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 1), inset 0 0 15px rgba(0, 255, 0, 0.05);
         }
 
         .hand-scanner {
@@ -135,7 +143,7 @@
             border-radius: 2px;
         }
 
-        .hand-scanner:hover ~ .status-grid .status-dot {
+        .hand-scanner:hover~.status-grid .status-dot {
             background: #030;
             animation: status-blink 0.5s infinite alternate;
         }
@@ -146,33 +154,60 @@
             font-weight: bold;
             letter-spacing: 2px;
             padding: 10px 20px;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0, 0, 0, 0.7);
             border: 1px solid #444;
             text-shadow: 0 0 10px #fff;
             animation: slow-blink 3s infinite;
         }
 
         @keyframes scan-vertical {
-            0% { top: -10%; }
-            100% { top: 110%; }
+            0% {
+                top: -10%;
+            }
+
+            100% {
+                top: 110%;
+            }
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.05); opacity: 1; }
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
         }
 
         @keyframes status-blink {
-            0% { opacity: 1; }
-            100% { opacity: 0.3; }
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.3;
+            }
         }
 
         @keyframes slow-blink {
-            0%, 100% { opacity: 0.8; }
-            50% { opacity: 0.1; }
+
+            0%,
+            100% {
+                opacity: 0.8;
+            }
+
+            50% {
+                opacity: 0.1;
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="stripes"></div>
     <div class="scanlines"></div>
@@ -203,10 +238,17 @@
         </div>
         <div id="click-prompt" class="click-prompt">SCAN BIOMETRICS TO OPEN</div>
     </div>
-    
+
     <header class="fixed-header">
-        <h1 class="neon-title">WANTED</h1>
-        <nav class="top-tabs">
+        <div class="header-top">
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <h1 class="neon-title">WANTED</h1>
+        </div>
+        <nav class="top-tabs" id="top-tabs">
             <div class="tab" data-page="home"><span>HOME</span></div>
             <div class="tab" data-page="atms"><span>ATMs</span></div>
             <div class="tab" data-page="gun-crates"><span>GUN CRATEs</span></div>
@@ -216,16 +258,22 @@
             <div class="tab" data-page="valuables"><span>VALUABLEs</span></div>
             <div class="tab" data-page="vehicles"><span>VEHICLEs</span></div>
             <div class="tab" data-page="weapons"><span>WEAPONs</span></div>
+
+            <div class="mobile-controls-group">
+                <div class="search-container">
+                    <input type="text" id="search-input" class="search-input" placeholder="Search archive...">
+                </div>
+                <div class="volume-control">
+                    <input type="range" id="bgm-volume" min="0" max="1" step="0.01" value="0.4">
+                </div>
+                <div class="volume-control size-slider-control">
+                    <input type="range" id="card-size-slider" min="150" max="400" step="10" value="200">
+                </div>
+                <button id="low-end-toggle" class="low-end-toggle" title="Toggle Low-End Mode">
+                    <span class="toggle-icon">⚡︎</span>
+                </button>
+            </div>
         </nav>
-        <div class="volume-control">
-            <input type="range" id="bgm-volume" min="0" max="1" step="0.01" value="0.4">
-        </div>
-        <div class="volume-control size-slider-control">
-            <input type="range" id="card-size-slider" min="150" max="400" step="10" value="200">
-        </div>
-        <button id="low-end-toggle" class="low-end-toggle" title="Toggle Low-End Mode">
-            <span class="toggle-icon">⚡︎</span>
-        </button>
     </header>
 
     <div class="page-wrapper">
@@ -245,6 +293,7 @@
 
     <script defer src="config.js"></script>
     <script defer src="data/atms.js"></script>
+    <script defer src="data/contributors.js"></script>
     <script defer src="data/gun-crates.js"></script>
     <script defer src="data/locations.js"></script>
     <script defer src="data/missions.js"></script>
@@ -264,4 +313,5 @@
     <script defer src="tabs/home.js"></script>
     <script defer src="script.js"></script>
 </body>
+
 </html>

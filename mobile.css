@@ -1,0 +1,241 @@
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1100;
+}
+
+.hamburger span {
+    width: 30px;
+    height: 3px;
+    background: var(--fg);
+    border-radius: 2px;
+    transition: all 0.3s linear;
+    position: relative;
+    transform-origin: 1px;
+}
+
+.header-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    position: relative;
+}
+
+@media (max-width: 768px) {
+    .fixed-header {
+        padding: 10px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .header-top {
+        justify-content: space-between;
+        padding: 0 15px;
+        width: 100%;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .neon-title {
+        font-size: 1.8rem;
+        letter-spacing: 4px;
+        margin: 0 auto;
+        transform: translateX(-15px);
+    }
+
+    .top-tabs {
+        display: none;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.95);
+        border-top: 1px solid var(--border);
+        padding: 8px;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8);
+        margin-top: 0;
+        z-index: 100;
+        overflow: visible;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+    }
+
+    .top-tabs.active {
+        display: grid;
+        animation: slideDown 0.3s ease-out forwards;
+    }
+
+    .tab {
+        text-align: center;
+        position: relative;
+        padding: 8px 6px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--border);
+        font-size: 0.6rem;
+        font-weight: 800;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: .3s cubic-bezier(0.23, 1, 0.32, 1);
+        transform: skew(-15deg);
+        color: #666;
+        overflow: visible;
+        box-sizing: border-box;
+    }
+
+    .tab span {
+        display: inline-block;
+        transform: skew(15deg);
+    }
+
+    .tab:hover,
+    .tab.active {
+        color: var(--fg);
+        border-color: var(--fg);
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px) skew(-15deg);
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    }
+
+    .tab.active::after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--fg);
+        box-shadow: 0 0 8px var(--fg);
+    }
+
+    /* Mobile Controls Group inside menu - spans all 3 columns */
+    .mobile-controls-group {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 5px 5px 5px;
+        border-top: 2px solid rgba(255, 255, 255, 0.1);
+        margin-top: 8px;
+        width: 100%;
+        box-sizing: border-box;
+        grid-column: 1 / -1;
+    }
+
+    /* CRITICAL: Override all fixed positioning for controls inside nav */
+    .top-tabs .mobile-controls-group .search-container,
+    .top-tabs .mobile-controls-group .volume-control,
+    .top-tabs .mobile-controls-group .low-end-toggle,
+    nav .mobile-controls-group .search-container,
+    nav .mobile-controls-group .volume-control,
+    nav .mobile-controls-group .low-end-toggle {
+        display: flex !important;
+        position: static !important;
+        top: auto !important;
+        right: auto !important;
+        left: auto !important;
+        bottom: auto !important;
+        margin: 0 !important;
+        transform: none !important;
+        z-index: auto !important;
+        box-sizing: border-box;
+    }
+
+    .top-tabs .mobile-controls-group .search-container,
+    nav .mobile-controls-group .search-container {
+        width: 100%;
+        max-width: 100%;
+        justify-content: center;
+        margin: 0 !important;
+        padding: 0;
+    }
+
+    .top-tabs .mobile-controls-group .search-input,
+    nav .mobile-controls-group .search-input {
+        width: 100%;
+        max-width: 100%;
+        transform: none !important;
+        font-size: 0.65rem;
+        padding: 5px 8px;
+        box-sizing: border-box;
+    }
+
+    .top-tabs .mobile-controls-group .volume-control,
+    nav .mobile-controls-group .volume-control {
+        width: 100% !important;
+        max-width: 100%;
+        min-width: 0;
+        height: 28px !important;
+        border-color: #666;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 4px 8px;
+        overflow: hidden !important;
+        box-sizing: border-box;
+    }
+
+    .top-tabs .mobile-controls-group .volume-control::before,
+    nav .mobile-controls-group .volume-control::before {
+        flex: 0 0 20px;
+        margin-right: 6px;
+        font-size: 0.8rem;
+    }
+
+    .top-tabs .mobile-controls-group .volume-control input[type=range],
+    nav .mobile-controls-group .volume-control input[type=range] {
+        opacity: 1 !important;
+        flex: 1;
+        min-width: 0;
+        display: block !important;
+        position: static !important;
+        margin: 0 5px 0 0 !important;
+        height: 4px !important;
+    }
+
+    .top-tabs .mobile-controls-group .low-end-toggle,
+    nav .mobile-controls-group .low-end-toggle {
+        width: 100% !important;
+        max-width: 100%;
+        height: 32px !important;
+        padding: 6px 10px;
+        font-size: 0.8rem;
+        position: static !important;
+        top: auto !important;
+        right: auto !important;
+        box-sizing: border-box;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg);
+}

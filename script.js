@@ -1,220 +1,248 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const container = document.getElementById("page-container");
-    const garageIntro = document.getElementById("garage-intro");
-    const clickPrompt = document.getElementById("click-prompt");
-    const bgm = document.getElementById("bgm");
-    const clickSfx = document.getElementById("sfx-click");
-    const hoverSfx = document.getElementById("sfx-hover");
-    const loadSfx = document.getElementById("sfx-load");
-    const volumeSlider = document.getElementById("bgm-volume");
-    const sizeSlider = document.getElementById("card-size-slider");
-    const contentWrapper = document.querySelector(".content");
-    const staticOverlay = document.querySelector(".static");
-    const root = document.documentElement;
-    let audioUnlocked = false;
 
-    const DEFAULT_VOLUME = 0.1;
-    const DEFAULT_SIZE = 200;
-    
-    const lowEndToggle = document.getElementById("low-end-toggle");
-    const savedLowEndMode = localStorage.getItem("lowEndMode") === "true";
-    
-    if (savedLowEndMode) {
-        document.body.classList.add("low-end-mode");
-        if (lowEndToggle) lowEndToggle.classList.add("active");
-    }
-    
-    if (lowEndToggle) {
-        lowEndToggle.addEventListener("click", () => {
-            const isLowEnd = document.body.classList.toggle("low-end-mode");
-            lowEndToggle.classList.toggle("active", isLowEnd);
-            localStorage.setItem("lowEndMode", isLowEnd);
-            
-            if (audioUnlocked && clickSfx) {
-                clickSfx.currentTime = 0;
-                clickSfx.volume = 0.3;
-                clickSfx.play().catch(() => {});
-            }
-        });
-    }
+const container = document.getElementById("page-container");
+const garageIntro = document.getElementById("garage-intro");
+const clickPrompt = document.getElementById("click-prompt");
+const bgm = document.getElementById("bgm");
+const clickSfx = document.getElementById("sfx-click");
+const hoverSfx = document.getElementById("sfx-hover");
+const loadSfx = document.getElementById("sfx-load");
+const volumeSlider = document.getElementById("bgm-volume");
+const sizeSlider = document.getElementById("card-size-slider");
+const contentWrapper = document.querySelector(".content");
+const staticOverlay = document.querySelector(".static");
+const root = document.documentElement;
+let audioUnlocked = false;
 
-    if (volumeSlider) volumeSlider.value = DEFAULT_VOLUME;
-    if (bgm) bgm.volume = DEFAULT_VOLUME;
+const DEFAULT_VOLUME = 0.1;
+const DEFAULT_SIZE = 200;
 
-    const savedVolume = localStorage.getItem("bgmVolume");
-    if (savedVolume !== null && volumeSlider && bgm) {
-        volumeSlider.value = savedVolume;
-        bgm.volume = savedVolume;
-    }
+const lowEndToggle = document.getElementById("low-end-toggle");
+const savedLowEndMode = localStorage.getItem("lowEndMode") === "true";
 
-    const savedSize = localStorage.getItem("cardSize");
-    if (savedSize !== null && sizeSlider) {
-        sizeSlider.value = savedSize;
-        root.style.setProperty('--card-min-size', `${savedSize}px`);
-    } else {
-        root.style.setProperty('--card-min-size', `${DEFAULT_SIZE}px`);
-    }
+if (savedLowEndMode) {
+    document.body.classList.add("low-end-mode");
+    if (lowEndToggle) lowEndToggle.classList.add("active");
+}
 
-    function preloadImages() {
-        const imageSet = new Set();
-        const datasets = [
-            window.VALUABLES,
-            window.ATMS,
-            window.WEAPONS,
-            window.VEHICLES,
-            window.MISSIONS,
-            window.NPCS,
-            window.LOCATIONS
-        ];
-        datasets.forEach(dataset => {
-            if (!Array.isArray(dataset)) return;
-            dataset.forEach(item => {
-                if (item.image) imageSet.add(item.image);
-                if (Array.isArray(item.images)) {
-                    item.images.forEach(img => imageSet.add(img));
-                }
-            });
-        });
-        
-        const images = Array.from(imageSet);
-        const batchSize = 5;
-        let index = 0;
-        
-        const loadBatch = () => {
-            const batch = images.slice(index, index + batchSize);
-            batch.forEach(src => {
-                const img = new Image();
-                img.src = src;
-            });
-            index += batchSize;
-            
-            if (index < images.length) {
-                if ('requestIdleCallback' in window) {
-                    requestIdleCallback(loadBatch);
-                } else {
-                    setTimeout(loadBatch, 100);
-                }
-            }
-        };
-        
-        loadBatch();
-    }
+if (lowEndToggle) {
+    lowEndToggle.addEventListener("click", () => {
+        const isLowEnd = document.body.classList.toggle("low-end-mode");
+        lowEndToggle.classList.toggle("active", isLowEnd);
+        localStorage.setItem("lowEndMode", isLowEnd);
 
-    window.openGarage = () => {
-        if (audioUnlocked) return;
-        audioUnlocked = true;
-        
-        const scanner = document.querySelector('.hand-scanner');
-        if (scanner) {
-            scanner.style.transform = 'scale(0.95)';
-            scanner.style.borderColor = '#0f0';
-            scanner.style.boxShadow = '0 0 40px rgba(0,255,65,0.5), inset 0 0 20px rgba(0,255,65,0.2)';
-        }
-        
-        const statusDots = document.querySelectorAll('.status-dot');
-        statusDots.forEach((dot, index) => {
-            setTimeout(() => {
-                dot.style.background = '#0f0';
-                dot.style.boxShadow = '0 0 10px #0f0';
-            }, index * 100);
-        });
-        
-        if (clickPrompt) {
-            clickPrompt.style.opacity = '0';
-            clickPrompt.style.transform = 'translateY(20px)';
-        }
-        
-        setTimeout(() => {
-            if (garageIntro) garageIntro.classList.add("open");
-        }, 600);
-        
-        if (clickSfx) {
+        if (audioUnlocked && clickSfx) {
             clickSfx.currentTime = 0;
-            clickSfx.volume = 0.5;
-            clickSfx.play().catch(() => {});
+            clickSfx.volume = 0.3;
+            clickSfx.play().catch(() => { });
         }
-        
-        if (bgm) {
-            bgm.volume = 0;
-            bgm.play().catch(() => {});
-            let vol = 0;
-            const fadeInterval = setInterval(() => {
-                vol += 0.01;
-                if (vol >= volumeSlider.value) {
-                    vol = parseFloat(volumeSlider.value);
-                    clearInterval(fadeInterval);
-                }
-                bgm.volume = vol;
-            }, 50);
-        }
-        
-        setTimeout(() => {
-            if (garageIntro) garageIntro.remove();
-        }, 3000);
-        
-        document.querySelector('.tab[data-page="home"]').classList.add("active");
-        preloadImages();
-        
-        setTimeout(() => {
-            loadPage("home");
-        }, 800);
-    };
+    });
+}
 
-    document.querySelectorAll(".tab").forEach(tab => {
-        tab.addEventListener("click", () => {
-            if (!audioUnlocked) return;
-            if (clickSfx) {
-                clickSfx.currentTime = 0;
-                clickSfx.volume = 0.3;
-                clickSfx.play().catch(() => {});
-            }
-            if (staticOverlay) {
-                staticOverlay.style.opacity = "0.2";
-                setTimeout(() => staticOverlay.style.opacity = "0", 200);
-            }
-            
-            document.querySelectorAll(".tab").forEach(t => {
-                t.classList.remove("active");
-                t.style.transform = '';
-            });
-            
-            tab.classList.add("active");
-            
-            requestAnimationFrame(() => {
-                container.style.opacity = '0';
-                container.style.transform = 'translateY(10px)';
-                
-                setTimeout(() => {
-                    requestAnimationFrame(() => {
-                        loadPage(tab.dataset.page);
-                        container.style.opacity = '1';
-                        container.style.transform = 'translateY(0)';
-                    });
-                }, 150);
-            });
-        });
-        
-        tab.addEventListener("mouseenter", () => {
-            if (!audioUnlocked) return;
-            if (hoverSfx) {
-                hoverSfx.currentTime = 0;
-                hoverSfx.volume = 0.2;
-                hoverSfx.play().catch(() => {});
+if (volumeSlider) volumeSlider.value = DEFAULT_VOLUME;
+if (bgm) bgm.volume = DEFAULT_VOLUME;
+
+const savedVolume = localStorage.getItem("bgmVolume");
+if (savedVolume !== null && volumeSlider && bgm) {
+    volumeSlider.value = savedVolume;
+    bgm.volume = savedVolume;
+}
+
+const savedSize = localStorage.getItem("cardSize");
+if (savedSize !== null && sizeSlider) {
+    sizeSlider.value = savedSize;
+    root.style.setProperty('--card-min-size', `${savedSize}px`);
+} else {
+    root.style.setProperty('--card-min-size', `${DEFAULT_SIZE}px`);
+}
+
+function preloadImages() {
+    const imageSet = new Set();
+    const datasets = [
+        window.VALUABLES,
+        window.ATMS,
+        window.WEAPONS,
+        window.VEHICLES,
+        window.MISSIONS,
+        window.NPCS,
+        window.LOCATIONS
+    ];
+    datasets.forEach(dataset => {
+        if (!Array.isArray(dataset)) return;
+        dataset.forEach(item => {
+            if (item.image) imageSet.add(item.image);
+            if (Array.isArray(item.images)) {
+                item.images.forEach(img => imageSet.add(img));
             }
         });
     });
 
-    contentWrapper.addEventListener("click", e => {
-        const btn = e.target.closest(".sort-btn");
-        if (!btn || !audioUnlocked) return;
+    const images = Array.from(imageSet);
+    const batchSize = 5;
+    let index = 0;
+
+    const loadBatch = () => {
+        const batch = images.slice(index, index + batchSize);
+        batch.forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+        index += batchSize;
+
+        if (index < images.length) {
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(loadBatch);
+            } else {
+                setTimeout(loadBatch, 100);
+            }
+        }
+    };
+
+    loadBatch();
+}
+
+window.openGarage = () => {
+    if (audioUnlocked) return;
+    audioUnlocked = true;
+
+    const scanner = document.querySelector('.hand-scanner');
+    if (scanner) {
+        scanner.style.transform = 'scale(0.95)';
+        scanner.style.borderColor = '#0f0';
+        scanner.style.boxShadow = '0 0 40px rgba(0,255,65,0.5), inset 0 0 20px rgba(0,255,65,0.2)';
+    }
+
+    const statusDots = document.querySelectorAll('.status-dot');
+    statusDots.forEach((dot, index) => {
+        setTimeout(() => {
+            dot.style.background = '#0f0';
+            dot.style.boxShadow = '0 0 10px #0f0';
+        }, index * 100);
+    });
+
+    if (clickPrompt) {
+        clickPrompt.style.opacity = '0';
+        clickPrompt.style.transform = 'translateY(20px)';
+    }
+
+    setTimeout(() => {
+        if (garageIntro) garageIntro.classList.add("open");
+    }, 600);
+
+    if (clickSfx) {
+        clickSfx.currentTime = 0;
+        clickSfx.volume = 0.5;
+        clickSfx.play().catch(() => { });
+    }
+
+    if (bgm) {
+        bgm.volume = 0;
+        bgm.play().catch(() => { });
+        let vol = 0;
+        const fadeInterval = setInterval(() => {
+            vol += 0.01;
+            if (vol >= volumeSlider.value) {
+                vol = parseFloat(volumeSlider.value);
+                clearInterval(fadeInterval);
+            }
+            bgm.volume = vol;
+        }, 50);
+    }
+
+    setTimeout(() => {
+        if (garageIntro) garageIntro.remove();
+    }, 3000);
+
+    document.querySelector('.tab[data-page="home"]').classList.add("active");
+    preloadImages();
+
+    setTimeout(() => {
+        loadPage("home");
+    }, 800);
+};
+
+function initMobileMenu() {
+    const hamburger = document.getElementById('hamburger');
+    const nav = document.getElementById('top-tabs');
+    const tabs = document.querySelectorAll('.tab');
+
+    if (!hamburger || !nav) return;
+
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        nav.classList.toggle('active');
+    });
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            nav.classList.remove('active');
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!nav.contains(e.target) && !hamburger.contains(e.target) && nav.classList.contains('active')) {
+            hamburger.classList.remove('active');
+            nav.classList.remove('active');
+        }
+    });
+}
+
+
+document.querySelectorAll(".tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+        if (!audioUnlocked) return;
         if (clickSfx) {
             clickSfx.currentTime = 0;
             clickSfx.volume = 0.3;
-            clickSfx.play().catch(() => {});
+            clickSfx.play().catch(() => { });
         }
-        
-        const ripple = document.createElement('span');
-        ripple.style.cssText = `
+        if (staticOverlay) {
+            staticOverlay.style.opacity = "0.2";
+            setTimeout(() => staticOverlay.style.opacity = "0", 200);
+        }
+
+        document.querySelectorAll(".tab").forEach(t => {
+            t.classList.remove("active");
+            t.style.transform = '';
+        });
+
+        tab.classList.add("active");
+
+        requestAnimationFrame(() => {
+            container.style.opacity = '0';
+            container.style.transform = 'translateY(10px)';
+
+            setTimeout(() => {
+                requestAnimationFrame(() => {
+                    loadPage(tab.dataset.page);
+                    container.style.opacity = '1';
+                    container.style.transform = 'translateY(0)';
+                });
+            }, 150);
+        });
+    });
+
+    tab.addEventListener("mouseenter", () => {
+        if (!audioUnlocked) return;
+        if (hoverSfx) {
+            hoverSfx.currentTime = 0;
+            hoverSfx.volume = 0.2;
+            hoverSfx.play().catch(() => { });
+        }
+    });
+});
+
+contentWrapper.addEventListener("click", e => {
+    const btn = e.target.closest(".sort-btn");
+    if (!btn || !audioUnlocked) return;
+    if (clickSfx) {
+        clickSfx.currentTime = 0;
+        clickSfx.volume = 0.3;
+        clickSfx.play().catch(() => { });
+    }
+
+    const ripple = document.createElement('span');
+    ripple.style.cssText = `
             position: absolute;
             background: rgba(255,255,255,0.3);
             border-radius: 50%;
@@ -222,121 +250,121 @@ document.addEventListener("DOMContentLoaded", () => {
             animation: ripple 0.6s linear;
             pointer-events: none;
         `;
-        const rect = btn.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-        ripple.style.width = ripple.style.height = size + 'px';
-        ripple.style.left = '50%';
-        ripple.style.top = '50%';
-        ripple.style.marginLeft = -size/2 + 'px';
-        ripple.style.marginTop = -size/2 + 'px';
-        btn.style.position = 'relative';
-        btn.style.overflow = 'hidden';
-        btn.appendChild(ripple);
-        setTimeout(() => ripple.remove(), 600);
-        
-        document.querySelector(".sort-btn.active")?.classList.remove("active");
-        btn.classList.add("active");
+    const rect = btn.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = '50%';
+    ripple.style.top = '50%';
+    ripple.style.marginLeft = -size / 2 + 'px';
+    ripple.style.marginTop = -size / 2 + 'px';
+    btn.style.position = 'relative';
+    btn.style.overflow = 'hidden';
+    btn.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+
+    document.querySelector(".sort-btn.active")?.classList.remove("active");
+    btn.classList.add("active");
+});
+
+contentWrapper.addEventListener("mouseenter", e => {
+    const btn = e.target.closest(".sort-btn");
+    if (!btn || !audioUnlocked) return;
+    if (hoverSfx) {
+        hoverSfx.currentTime = 0;
+        hoverSfx.volume = 0.15;
+        hoverSfx.play().catch(() => { });
+    }
+}, true);
+
+if (volumeSlider && bgm) {
+    volumeSlider.addEventListener("input", () => {
+        bgm.volume = volumeSlider.value;
+        localStorage.setItem("bgmVolume", volumeSlider.value);
+    });
+}
+
+if (sizeSlider) {
+    let resizeDebounce;
+    sizeSlider.addEventListener("input", () => {
+        root.style.setProperty('--card-min-size', `${sizeSlider.value}px`);
+        localStorage.setItem("cardSize", sizeSlider.value);
+
+        clearTimeout(resizeDebounce);
+        resizeDebounce = setTimeout(() => {
+            requestAnimationFrame(() => {
+                const cards = document.querySelectorAll('.card');
+                cards.forEach((card, index) => {
+                    setTimeout(() => {
+                        requestAnimationFrame(() => {
+                            card.style.transform = 'skew(-1deg) scale(1.02)';
+                            setTimeout(() => {
+                                requestAnimationFrame(() => {
+                                    card.style.transform = '';
+                                });
+                            }, 150);
+                        });
+                    }, index * 15);
+                });
+            });
+        }, 150);
+    });
+}
+
+function loadPage(page) {
+    container.innerHTML = '<div class="loading glitch" data-text="LOADING...">LOADING ARCHIVE...</div>';
+
+    if (audioUnlocked && loadSfx) {
+        loadSfx.currentTime = 0;
+        loadSfx.volume = 0.3;
+        loadSfx.play().catch(() => { });
+    }
+
+    let content = "";
+    if (page === "home" && typeof renderHome === "function") {
+        content = renderHome();
+    } else if (page === "valuables" && typeof renderValuables === "function") {
+        content = renderValuables();
+    } else if (page === "atms" && typeof renderATMs === "function") {
+        content = renderATMs();
+    } else if (page === "weapons" && typeof renderWeapons === "function") {
+        content = renderWeapons();
+    } else if (page === "vehicles" && typeof renderVehicles === "function") {
+        content = renderVehicles();
+    } else if (page === "gun-crates" && typeof renderGunCrates === "function") {
+        content = renderGunCrates();
+    } else if (page === "missions" && typeof renderMissions === "function") {
+        content = renderMissions();
+    } else if (page === "npcs" && typeof renderNPCs === "function") {
+        content = renderNPCs();
+    } else if (page === "locations" && typeof renderLocations === "function") {
+        content = renderLocations();
+    } else {
+        content = `<h2>Work In Progress</h2><p>Under construction...</p>`;
+    }
+
+    container.innerHTML = content;
+
+    const cards = container.querySelectorAll('.card');
+    cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px) skew(-1deg)';
     });
 
-    contentWrapper.addEventListener("mouseenter", e => {
-        const btn = e.target.closest(".sort-btn");
-        if (!btn || !audioUnlocked) return;
-        if (hoverSfx) {
-            hoverSfx.currentTime = 0;
-            hoverSfx.volume = 0.15;
-            hoverSfx.play().catch(() => {});
-        }
-    }, true);
-
-    if (volumeSlider && bgm) {
-        volumeSlider.addEventListener("input", () => {
-            bgm.volume = volumeSlider.value;
-            localStorage.setItem("bgmVolume", volumeSlider.value);
-        });
-    }
-
-    if (sizeSlider) {
-        let resizeDebounce;
-        sizeSlider.addEventListener("input", () => {
-            root.style.setProperty('--card-min-size', `${sizeSlider.value}px`);
-            localStorage.setItem("cardSize", sizeSlider.value);
-            
-            clearTimeout(resizeDebounce);
-            resizeDebounce = setTimeout(() => {
-                requestAnimationFrame(() => {
-                    const cards = document.querySelectorAll('.card');
-                    cards.forEach((card, index) => {
-                        setTimeout(() => {
-                            requestAnimationFrame(() => {
-                                card.style.transform = 'skew(-1deg) scale(1.02)';
-                                setTimeout(() => {
-                                    requestAnimationFrame(() => {
-                                        card.style.transform = '';
-                                    });
-                                }, 150);
-                            });
-                        }, index * 15);
-                    });
-                });
-            }, 150);
-        });
-    }
-
-    function loadPage(page) {
-        container.innerHTML = '<div class="loading glitch" data-text="LOADING...">LOADING ARCHIVE...</div>';
-        
-        if (audioUnlocked && loadSfx) {
-            loadSfx.currentTime = 0;
-            loadSfx.volume = 0.3;
-            loadSfx.play().catch(() => {});
-        }
-        
-        let content = "";
-        if (page === "home" && typeof renderHome === "function") {
-            content = renderHome();
-        } else if (page === "valuables" && typeof renderValuables === "function") {
-            content = renderValuables();
-        } else if (page === "atms" && typeof renderATMs === "function") {
-            content = renderATMs();
-        } else if (page === "weapons" && typeof renderWeapons === "function") {
-            content = renderWeapons();
-        } else if (page === "vehicles" && typeof renderVehicles === "function") {
-            content = renderVehicles();
-        } else if (page === "gun-crates" && typeof renderGunCrates === "function") {
-            content = renderGunCrates();
-        } else if (page === "missions" && typeof renderMissions === "function") {
-            content = renderMissions();
-        } else if (page === "npcs" && typeof renderNPCs === "function") {
-            content = renderNPCs();
-        } else if (page === "locations" && typeof renderLocations === "function") {
-            content = renderLocations();
-        } else {
-            content = `<h2>Work In Progress</h2><p>Under construction...</p>`;
-        }
-        
-        container.innerHTML = content;
-        
-        const cards = container.querySelectorAll('.card');
+    requestAnimationFrame(() => {
         cards.forEach((card, index) => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px) skew(-1deg)';
+            setTimeout(() => {
+                requestAnimationFrame(() => {
+                    card.style.transition = 'all 0.5s cubic-bezier(0.23, 1, 0.32, 1)';
+                    card.style.opacity = '1';
+                    card.style.transform = '';
+                });
+            }, index * 30);
         });
-        
-        requestAnimationFrame(() => {
-            cards.forEach((card, index) => {
-                setTimeout(() => {
-                    requestAnimationFrame(() => {
-                        card.style.transition = 'all 0.5s cubic-bezier(0.23, 1, 0.32, 1)';
-                        card.style.opacity = '1';
-                        card.style.transform = '';
-                    });
-                }, index * 30);
-            });
-        });
-    }
-    
-    const style = document.createElement('style');
-    style.textContent = `
+    });
+}
+
+const style = document.createElement('style');
+style.textContent = `
         @keyframes ripple {
             to {
                 transform: scale(4);
@@ -344,5 +372,183 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     `;
-    document.head.appendChild(style);
+document.head.appendChild(style);
+
+const searchInput = document.getElementById("search-input");
+
+if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase().trim();
+
+        if (!query) {
+            const activeTab = document.querySelector(".tab.active");
+            if (activeTab) loadPage(activeTab.dataset.page);
+            return;
+        }
+
+        container.innerHTML = '<div class="loading glitch" data-text="SEARCHING...">SEARCHING DATABASE...</div>';
+
+        clearTimeout(window.searchTimeout);
+        window.searchTimeout = setTimeout(() => {
+            performSearch(query);
+        }, 300);
+    });
+}
+
+function performSearch(query) {
+    const results = [];
+
+    const checkData = (data, searchType, categoryLabel) => {
+        if (typeof data !== 'undefined' && Array.isArray(data)) {
+            data.forEach(item => {
+                const itemName = item.name || item.title || "";
+                if (itemName.toLowerCase().includes(query)) {
+                    results.push({ ...item, name: itemName, searchType, categoryLabel });
+                }
+            });
+        }
+    };
+
+    checkData((typeof WEAPONS_DATA !== 'undefined' ? WEAPONS_DATA : window.WEAPONS), 'weapon', 'WEAPON');
+    checkData((typeof VEHICLES_DATA !== 'undefined' ? VEHICLES_DATA : window.VEHICLES), 'vehicle', 'VEHICLE');
+    checkData((typeof ATMS_DATA !== 'undefined' ? ATMS_DATA : window.ATMS), 'atm', 'ATM');
+    checkData((typeof GUN_CRATES_DATA !== 'undefined' ? GUN_CRATES_DATA : window.GUN_CRATES), 'guncrate', 'GUN CRATE');
+    checkData((typeof VALUABLES_DATA !== 'undefined' ? VALUABLES_DATA : window.VALUABLES), 'valuable', 'VALUABLE');
+    checkData((typeof MISSIONS_DATA !== 'undefined' ? MISSIONS_DATA : window.MISSIONS), 'mission', 'MISSION');
+    checkData((typeof NPCS_DATA !== 'undefined' ? NPCS_DATA : window.NPCS), 'npc', 'NPC');
+    checkData((typeof LOCATIONS_DATA !== 'undefined' ? LOCATIONS_DATA : window.LOCATIONS), 'location', 'LOCATION');
+
+
+    if (results.length === 0) {
+        container.innerHTML = `
+                <h2>NO MATCHES FOUND</h2>
+                <p style="text-align:center; color:#888;">No database entries match "${query}"</p>
+            `;
+        return;
+    }
+
+    const cardsHTML = results.map(item => renderSearchItem(item)).join('');
+
+    container.innerHTML = `
+            <h2>SEARCH RESULTS: "${query}"</h2>
+            <div class="card-grid">
+                ${cardsHTML}
+            </div>
+        `;
+
+    const cards = container.querySelectorAll('.card');
+    cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px) skew(-1deg)';
+        setTimeout(() => {
+            card.style.transition = 'all 0.5s cubic-bezier(0.23, 1, 0.32, 1)';
+            card.style.opacity = '1';
+            card.style.transform = '';
+        }, index * 30);
+    });
+}
+
+function renderSearchItem(item) {
+    let slug = generateSlug(item.name || item.title);
+    let content = '';
+    let rarityKey = null;
+
+    if (item.searchType === 'weapon') {
+        content = `
+                ${renderPriceTag(item.contractPrice)}
+                <h3>${item.name}</h3>
+                ${renderStat('Re-buy', formatPrice(item.repairPrice))}
+                ${renderStat('Ammo', item.stats.ammo)}
+                ${renderStat('Ammo Cost', item.stats.ammoPrice)}
+                ${renderStat('Damage', item.stats.damage)}
+                ${renderStat('RPM', item.stats.firerate)}
+                ${renderStat('Reload', `${item.stats.reload}s`)}
+                ${renderStat('Accuracy', item.stats.accuracy)}
+            `;
+        rarityKey = null;
+    } else if (item.searchType === 'vehicle') {
+        let statsHtml = '';
+        if (item.type === 'ground') {
+            statsHtml = `
+                    ${renderStat('Top Speed', `${item.stats.topSpeed} MPH`)}
+                    ${renderStat('Acceleration', `${item.stats.acceleration}%`)}
+                    ${renderStat('Braking', `${item.stats.braking}%`)}
+                    ${renderStat('Max Health', item.stats.maxHealth)}
+                    ${renderStat('Armor', item.stats.armor)}
+                `;
+        } else if (item.type === 'flying') {
+            statsHtml = `
+                    ${renderStat('Top Speed', `${item.stats.topSpeed} Knots`)}
+                    ${renderStat('Handling', `${item.stats.handling}%`)}
+                    ${renderStat('Spool Time', `${item.stats.spoolTime}s`)}
+                    ${renderStat('Max Health', item.stats.maxHealth)}
+                    ${renderStat('Armor', item.stats.armor)}
+                `;
+        }
+
+        content = `
+                ${renderPriceTag(item.contractPrice)}
+                <h3>${item.name}</h3>
+                ${renderStat('Repair (fully destroyed)', formatPrice(item.repairPrice))}
+                ${statsHtml}
+            `;
+        rarityKey = null;
+    } else if (item.searchType === 'atm') {
+        content = `
+              <h3>${item.name}</h3>
+              ${renderStat('Cash', formatPrice(item.price))}
+            `;
+        rarityKey = item.rarity;
+    } else if (item.searchType === 'valuable') {
+        content = `
+              <h3>${item.name}</h3>
+              ${renderStat('Price', formatPrice(item.price))}
+              ${renderStat('Weight', `${item.weight} kg`)}
+            `;
+        rarityKey = item.rarity;
+    } else if (item.searchType === 'guncrate') {
+        content = `
+                <h3>${item.name}</h3>
+                ${renderStat('Contains', item.gun)}
+                ${renderStat('Cooldown', item.cooldown)}
+                ${renderStat('Location', item.location)}
+            `;
+        rarityKey = null;
+    } else if (item.searchType === 'mission') {
+        slug = item.id;
+        content = `
+                <h3>${item.title}</h3>
+                ${renderStat('Location', item.location)}
+                ${renderStat('Description', item.description)}
+                ${renderStat('Requirements', item.requirements.join(', '))}
+                ${renderStat('How', item.howToComplete)}
+                ${renderStat('Reward', item.rewards.join(', '))}
+            `;
+        rarityKey = item.difficulty;
+    } else if (item.searchType === 'npc') {
+        content = `
+                <h3>${item.name}</h3>
+                ${renderStat('Location', item.location)}
+                ${renderStat('Description', item.description)}
+            `;
+        rarityKey = item.team;
+    } else if (item.searchType === 'location') {
+        content = `
+                <h3>${item.name}</h3>
+                ${renderStat('Description', item.description)}
+             `;
+        rarityKey = null;
+    }
+
+    return renderCard(item, rarityKey, content);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof initMobileMenu === 'function') initMobileMenu();
+
+    const bgm = document.getElementById('bgm');
+    const volumeSlider = document.getElementById('bgm-volume');
+    if (bgm && volumeSlider) {
+        bgm.volume = volumeSlider.value;
+    }
 });
