@@ -30,7 +30,7 @@
     position: relative;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .fixed-header {
         padding: 10px;
         flex-direction: column;
@@ -44,7 +44,7 @@
     }
 
     .hamburger {
-        display: flex;
+        display: flex !important;
     }
 
     .neon-title {
@@ -55,7 +55,7 @@
     }
 
     .top-tabs {
-        display: none;
+        display: none !important;
         width: 100%;
         background: rgba(0, 0, 0, 0.95);
         border-top: 1px solid var(--border);
@@ -72,7 +72,7 @@
     }
 
     .top-tabs.active {
-        display: grid;
+        display: grid !important;
         animation: slideDown 0.3s ease-out forwards;
     }
 
@@ -118,7 +118,6 @@
         box-shadow: 0 0 8px var(--fg);
     }
 
-    /* Mobile Controls Group inside menu - spans all 3 columns */
     .mobile-controls-group {
         display: flex !important;
         flex-direction: column;
@@ -132,7 +131,6 @@
         grid-column: 1 / -1;
     }
 
-    /* CRITICAL: Override all fixed positioning for controls inside nav */
     .top-tabs .mobile-controls-group .search-container,
     .top-tabs .mobile-controls-group .volume-control,
     .top-tabs .mobile-controls-group .low-end-toggle,
@@ -215,6 +213,19 @@
         right: auto !important;
         box-sizing: border-box;
     }
+
+    .hamburger.active span:nth-child(1) {
+        transform: translateY(9.5px) rotate(45deg);
+    }
+
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    .hamburger.active span:nth-child(3) {
+        transform: translateY(-9.5px) rotate(-45deg);
+    }
 }
 
 @keyframes slideDown {
@@ -227,17 +238,4 @@
         opacity: 1;
         transform: translateY(0);
     }
-}
-
-.hamburger.active span:nth-child(1) {
-    transform: translateY(9.5px) rotate(45deg);
-}
-
-.hamburger.active span:nth-child(2) {
-    opacity: 0;
-    transform: translateX(-10px);
-}
-
-.hamburger.active span:nth-child(3) {
-    transform: translateY(-9.5px) rotate(-45deg);
 }

@@ -31,7 +31,7 @@ body {
     background-attachment: fixed;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     body {
         background-attachment: scroll;
     }
@@ -662,7 +662,7 @@ body.low-end-mode .sort-btn {
     }
 }
 
-@media(max-width:768px) {
+@media(max-width:1024px) {
     .page-wrapper {
         padding-top: 160px
     }
