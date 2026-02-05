@@ -6,6 +6,7 @@
     --border: #444;
     --glow: #fff;
     --card-min-size: 200px;
+    --header-scale: 1;
 }
 
 * {
@@ -103,15 +104,66 @@ body::after {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     padding: 1px 1px;
     background: rgba(0, 0, 0, .98);
     border-bottom: 2px solid var(--border);
     box-shadow: 0 0 20px rgba(0, 0, 0, 1);
+    min-height: 100px;
+}
+
+.header-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.header-resize-handle {
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 10px;
+    background: var(--border);
+    cursor: ns-resize;
+    z-index: 1001;
+    transition: all 0.2s ease;
+    border-radius: 2px;
+}
+
+.header-resize-handle::before {
+    content: '⋮⋮⋮';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #666;
+    font-size: 10px;
+    letter-spacing: 2px;
+    pointer-events: none;
+}
+
+.header-resize-handle:hover {
+    background: var(--fg);
+    box-shadow: 0 0 10px var(--fg);
+    height: 12px;
+}
+
+.header-resize-handle:hover::before {
+    color: #000;
+}
+
+@media (max-width: 1024px) {
+    .header-resize-handle {
+        display: none;
+    }
 }
 
 .neon-title {
-    font-size: clamp(1.5rem, 6vw, 3.5rem);
-    letter-spacing: clamp(4px, 2vw, 16px);
+    font-size: calc(clamp(1.5rem, 6vw, 3.5rem) * var(--header-scale));
+    letter-spacing: calc(clamp(4px, 2vw, 16px) * var(--header-scale));
     font-weight: bold;
     text-transform: uppercase;
     color: transparent;
@@ -122,30 +174,39 @@ body::after {
     -webkit-background-clip: text;
     text-shadow: 0 0 10px var(--glow), 0 0 20px var(--glow), 0 0 40px var(--glow);
     text-align: center;
+    transition: font-size 0.1s ease, letter-spacing 0.1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
 }
 
 .top-tabs {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 12px;
-    margin-top: 15px;
-    padding: 10px;
+    gap: calc(12px * var(--header-scale));
+    margin-top: calc(15px * var(--header-scale));
+    padding: calc(10px * var(--header-scale));
 }
 
 .tab {
     position: relative;
-    padding: 8px 20px;
+    padding: calc(8px * var(--header-scale)) calc(20px * var(--header-scale));
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid var(--border);
-    font-size: 0.8rem;
+    font-size: calc(0.8rem * var(--header-scale));
     font-weight: 800;
-    letter-spacing: 2px;
+    letter-spacing: calc(2px * var(--header-scale));
     cursor: pointer;
     transition: .3s cubic-bezier(0.23, 1, 0.32, 1);
     transform: skew(-15deg);
     color: #666;
     overflow: visible;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 .tab span {
@@ -542,7 +603,7 @@ body.low-end-mode .sort-btn {
     background: #000;
     overflow: hidden;
     cursor: default;
-    transition: opacity 1s ease-out .7s;
+    transition: opacity 0.5s ease-out .3s;
 }
 
 .garage-intro.open {
@@ -554,7 +615,7 @@ body.low-end-mode .sort-btn {
     position: absolute;
     inset: 0;
     transform: translateY(0);
-    transition: transform 1.5s cubic-bezier(0.68, -0.15, 0.27, 1.15);
+    transition: transform 0.8s cubic-bezier(0.68, -0.15, 0.27, 1.15);
     cursor: default;
 }
 
