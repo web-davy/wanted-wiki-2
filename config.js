@@ -25,7 +25,7 @@ const generateSlug = (name) => {
 };
 
 const formatPrice = (price) => {
-  return `$${price.toLocaleString()}`;
+  return `<img src="images/cash.png" alt="$" style="height: 16px; width: auto; vertical-align: middle; margin-right: 2px;">$${price.toLocaleString()}`;
 };
 
 if (typeof module !== 'undefined' && module.exports) {
