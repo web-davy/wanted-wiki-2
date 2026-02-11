@@ -1,3 +1,7 @@
+function formatReward(reward) {
+  return reward.replace(/\$/g, '<img src="images/cash.png" alt="$" style="height: 16px; width: auto; vertical-align: middle; margin-right: 2px;">$');
+}
+
 function renderMissions(order = "hard") {
   const sorted = [...MISSIONS_DATA].sort((a, b) => {
     // Always put Christmas items at the bottom
@@ -24,13 +28,14 @@ function renderMissions(order = "hard") {
 
   const cards = sorted.map(item => {
     const slug = item.id;
+    const formattedRewards = item.rewards.map(formatReward).join(', ');
     const content = `
       <h3>${item.title}</h3>
       ${renderStat('Location', item.location)}
       ${renderStat('Description', item.description)}
       ${renderStat('Requirements', item.requirements.join(', '))}
       ${renderStat('How', item.howToComplete)}
-      ${renderStat('Reward', item.rewards.join(', '))}
+      ${renderStat('Reward', formattedRewards)}
     `;
 
     return `
