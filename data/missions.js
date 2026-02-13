@@ -1,15 +1,5 @@
 const MISSIONS_DATA = [
   {
-    id: "forbidden-meat",
-    title: "Forbidden Meat",
-    location: "Dans Diner – Talk to Dan",
-    description: "Business has been rough lately: meat prices have skyrocketed. If you can help find an alternative supply, we'll be able to stay open. Find a good meat source, and use the grinder in the back room to see if it makes for good burger meat.",
-    requirements: ["Criminal / Syndicate team"],
-    howToComplete: "Put a player inside the meat grinder to make them into burgers",
-    difficulty: "MEDIUM",
-    rewards: ["$20,000", "Meat Grinder Furniture"]
-  },
-  {
     id: "1-artisan",
     title: "1 Artisan",
     location: "Criminal Outpost – Talk to Erik",
@@ -108,6 +98,26 @@ const MISSIONS_DATA = [
     howToComplete: "Locate the Criminal Hideout at the Badlands",
     difficulty: "EASY",
     rewards: ["$25,000", "Access to the Police Team"]
+  },
+  {
+    id: "forbidden-meat",
+    title: "Forbidden Meat",
+    location: "Dans Diner – Talk to Dan",
+    description: "Business has been rough lately: meat prices have skyrocketed. If you can help find an alternative supply, we'll be able to stay open. Find a good meat source, and use the grinder in the back room to see if it makes for good burger meat.",
+    requirements: ["Criminal / Syndicate team"],
+    howToComplete: "Put a player inside the meat grinder to make them into burgers",
+    difficulty: "MEDIUM",
+    rewards: ["$20,000", "Meat Grinder Furniture"]
+  },
+  {
+    id: "bank-heist",
+    title: "Bank Heist",
+    location: "Tutorial",
+    description: "We've been watching you. Don't know who we are? Good, let's keep it that way for now.If you want to be a real criminal, you're going to have to prove you're worthy by doing a big job.Hit the central bank downtown and that will get you our respect.",
+    requirements: ["Criminal team"],
+    howToComplete: "Locate the Bank, use the elevator, rob the vault and escape",
+    difficulty: "EASY",
+    rewards: ["$5,000"]
   }
 ];
 
