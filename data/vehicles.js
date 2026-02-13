@@ -54,7 +54,7 @@ const VEHICLES_DATA = [
   {
     name: "Pulse 477",
     type: "ground",
-    repairPrice: 7500,
+    repairPrice: "?",
     contractPrice: 2400000,
     stats: {
       topSpeed: 205,
@@ -67,13 +67,26 @@ const VEHICLES_DATA = [
   {
     name: "Razor",
     type: "ground",
-    repairPrice: 10000,
+    repairPrice: "?",
     contractPrice: 3500000,
     stats: {
       topSpeed: 222,
       acceleration: 58,
       braking: 68,
       maxHealth: "200 - 100 - 100",
+      armor: 0
+    }
+  },
+  {
+    name: "orange?",
+    type: "ground",
+    repairPrice: "?",
+    contractPrice: "?",
+    stats: {
+      topSpeed: "?",
+      acceleration: "?",
+      braking: "?",
+      maxHealth: "? - ? - ?",
       armor: 0
     }
   },
@@ -116,6 +129,4 @@ const VEHICLES_DATA = [
       armor: 1
     }
   }
-
 ];
-
