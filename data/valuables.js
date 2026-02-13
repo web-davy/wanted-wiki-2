@@ -1,13 +1,4 @@
 const VALUABLES_DATA = [
-  { name: "Green Ornament", rarity: "CHRISTMAS", price: 75, priceNonContract: true, weight: 1 },
-  { name: "Blue Ornament", rarity: "CHRISTMAS", price: 100, priceNonContract: true, weight: 1 },
-  { name: "Red Ornament", rarity: "CHRISTMAS", price: 125, priceNonContract: true, weight: 1 },
-  { name: "Striped Ornament", rarity: "CHRISTMAS", price: 275, priceNonContract: true, weight: 1 },
-  { name: "Candy Cane", rarity: "CHRISTMAS", price: 777, priceNonContract: true, weight: 2 },
-  { name: "Gold Ornament", rarity: "CHRISTMAS", price: 1000, priceNonContract: true, weight: 1 },
-  { name: "Nutcracker", rarity: "CHRISTMAS", price: 1892, priceNonContract: true, weight: 3 },
-  { name: "Snowglobe", rarity: "CHRISTMAS", price: 8888, priceNonContract: true, weight: 6 },
-  { name: "White Ornament", rarity: "CHRISTMAS", price: 15000, priceNonContract: true, weight: 1 },
   { name: "Bank Cash Pile", rarity: "COMMON", price: 200, weight: 0 },
   { name: "Silver Bar", rarity: "COMMON", price: 250, weight: 2 },
   { name: "PearWatch", rarity: "COMMON", price: 200, weight: 2 },
@@ -33,6 +24,16 @@ const VALUABLES_DATA = [
   { name: "Amethyst", rarity: "LEGENDARY", price: 30000, weight: 4 },
   { name: "Diamond", rarity: "LEGENDARY", price: 50000, weight: 4 },
   { name: "Bitcoin", rarity: "LEGENDARY", price: 92000, weight: 1 }
-
 ];
 
+const CHRISTMAS_VALUABLES_DATA = [
+  { name: "Green Ornament", rarity: "CHRISTMAS", price: 75, priceNonContract: true, weight: 1 },
+  { name: "Blue Ornament", rarity: "CHRISTMAS", price: 100, priceNonContract: true, weight: 1 },
+  { name: "Red Ornament", rarity: "CHRISTMAS", price: 125, priceNonContract: true, weight: 1 },
+  { name: "Striped Ornament", rarity: "CHRISTMAS", price: 275, priceNonContract: true, weight: 1 },
+  { name: "Candy Cane", rarity: "CHRISTMAS", price: 777, priceNonContract: true, weight: 2 },
+  { name: "Gold Ornament", rarity: "CHRISTMAS", price: 1000, priceNonContract: true, weight: 1 },
+  { name: "Nutcracker", rarity: "CHRISTMAS", price: 1892, priceNonContract: true, weight: 3 },
+  { name: "Snowglobe", rarity: "CHRISTMAS", price: 8888, priceNonContract: true, weight: 6 },
+  { name: "White Ornament", rarity: "CHRISTMAS", price: 15000, priceNonContract: true, weight: 1 }
+];

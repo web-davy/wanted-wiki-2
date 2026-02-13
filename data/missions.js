@@ -79,7 +79,7 @@ const MISSIONS_DATA = [
     difficulty: "HARD",
     rewards: ["$100,000"]
   },
-    {
+  {
     id: "8-artisan",
     title: "8 Artisan",
     location: "Criminal Outpost – Talk to Erik",
@@ -108,7 +108,10 @@ const MISSIONS_DATA = [
     howToComplete: "Locate the Criminal Hideout at the Badlands",
     difficulty: "EASY",
     rewards: ["$25,000", "Access to the Police Team"]
-  },
+  }
+];
+
+const CHRISTMAS_MISSIONS_DATA = [
   {
     id: "santas-helper",
     title: "Santas Helper",
@@ -147,7 +150,7 @@ const MISSIONS_DATA = [
     requirements: ["Criminal / Syndicate / Police team"],
     howToComplete: "Give Santa 5 Red Ornaments, 5 Green Ornaments and 5 Blue Ornaments",
     difficulty: "CHRISTMAS",
-    rewards: ["$175,000", "Christmas License Plate"]
+    rewards: ["$100,000", "Snowflake Rims"]
   },
   {
     id: "jingle-balls-2",
@@ -157,8 +160,6 @@ const MISSIONS_DATA = [
     requirements: ["Criminal / Syndicate / Police team"],
     howToComplete: "Give Santa 8 Gold Ornaments, 2 White Ornaments and 1 Diamond",
     difficulty: "CHRISTMAS",
-    rewards: ["$250,000", "Nutcracker Furniture"]
+    rewards: ["$100,000", "Snowflake Rims"]
   }
-
 ];
-
