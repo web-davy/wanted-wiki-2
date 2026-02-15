@@ -160,7 +160,7 @@ const CHRISTMAS_MISSIONS_DATA = [
     requirements: ["Criminal / Syndicate / Police team"],
     howToComplete: "Give Santa 5 Red Ornaments, 5 Green Ornaments and 5 Blue Ornaments",
     difficulty: "CHRISTMAS",
-    rewards: ["$100,000", "Snowflake Rims"]
+    rewards: ["$40,000", "Christmas 2025 Plate"]
   },
   {
     id: "jingle-balls-2",
@@ -170,6 +170,6 @@ const CHRISTMAS_MISSIONS_DATA = [
     requirements: ["Criminal / Syndicate / Police team"],
     howToComplete: "Give Santa 8 Gold Ornaments, 2 White Ornaments and 1 Diamond",
     difficulty: "CHRISTMAS",
-    rewards: ["$100,000", "Snowflake Rims"]
+    rewards: ["$250,000", "Nutcracker Furniture"]
   }
 ];
