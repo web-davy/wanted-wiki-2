@@ -15,7 +15,7 @@ function renderATMs(sort = "high") {
       ${renderStat('Rarity', item.rarityPercent)}
       ${renderStat('Cash', formatPrice(item.price))}
     `;
-    return renderCard(item, item.rarity, content);
+    return renderCardJPG(item, item.rarity, content);
   });
 
   const vaultCards = sortedVaults.map(item => {
@@ -27,7 +27,7 @@ function renderATMs(sort = "high") {
       ${renderStat('Rarity', item.rarityPercent)}
       ${renderStat('Cash', priceDisplay)}
     `;
-    return renderCard(item, item.rarity, content);
+    return renderCardJPG(item, item.rarity, content);
   });
 
   const sortButtons = renderSortButtons([

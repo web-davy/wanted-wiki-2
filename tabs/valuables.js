@@ -31,7 +31,7 @@ function renderValuables(sort = "high") {
       ${renderStat('Price', formatPrice(item.price))}
       ${renderStat('Weight', `${item.weight} kg`)}
     `;
-    return renderCard(item, item.rarity, content);
+    return renderCardJPG(item, item.rarity, content);
   });
 
   const christmasCards = sortedChristmas.map(item => {
@@ -40,7 +40,7 @@ function renderValuables(sort = "high") {
       ${renderStat('Price', formatPrice(item.price))}
       ${renderStat('Weight', `${item.weight} kg`)}
     `;
-    return renderCard(item, item.rarity, content);
+    return renderCardJPG(item, item.rarity, content);
   });
 
   const sortButtons = renderSortButtons([
