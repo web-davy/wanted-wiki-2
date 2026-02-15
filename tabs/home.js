@@ -1,4 +1,5 @@
 const UPDATES = [
+    { version: "v39879", description: "New NPC's / New Locations / New Missions / Overhauled Airport and Docks and more!", color: "#39ff14" },
     { version: "v39878", description: "Removed Christmass Event", color: "#ff3333" },
     { version: "v39877", description: "Added Christmass Event", color: "#39ff14" }
 ];
@@ -89,4 +90,5 @@ function renderHome() {
             </div>
         </div>
     `;
+
 }
