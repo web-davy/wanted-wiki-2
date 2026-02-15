@@ -6,7 +6,7 @@ function renderCard(item, rarityKey, content) {
 
   return `
     <div class="card">
-      <img src="images/${slug}.jpg" alt="${item.name}" 
+      <img src="images/${slug}.png" alt="${item.name}" 
            style="width:100%; height:auto; margin-bottom:15px; border-radius:4px; 
                   box-shadow:0 0 10px rgba(255,255,255,0.2);">
       ${rarityName ? `<div class="rarity ${rarityClass}">${rarityName}</div>` : ''}
