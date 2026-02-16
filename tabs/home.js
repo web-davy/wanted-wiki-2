@@ -1,8 +1,11 @@
 const UPDATES = [
-    { version: "v39879", description: "New NPC's / New Locations / New Missions / Overhauled Airport and Docks and more!", color: "#39ff14" },
     { version: "v39878", description: "Removed Christmass Event", color: "#ff3333" },
     { version: "v39877", description: "Added Christmass Event", color: "#39ff14" }
 ];
+
+const COUNTDOWN_TARGET = new Date('2026-02-20T17:00:00Z');
+window.COUNTDOWN_TARGET = COUNTDOWN_TARGET;
+
 
 function renderHome() {
     const updatesHTML = UPDATES.map(update => `
@@ -49,11 +52,20 @@ function renderHome() {
                 <div class="updates-wrapper">
                     <div class="updates-box">
                         <div class="updates-header">
-                            <span class="updates-icon">⏰</span>
+                            <span class="updates-icon">ⴵ</span>
                             <h3 class="updates-title">RECENT UPDATES</h3>
                         </div>
                         <div class="updates-list">
                             ${updatesHTML}
+                        </div>
+                    </div>
+                    <div class="countdown-box">
+                        <div class="countdown-header">
+                            <span class="countdown-icon">⏱</span>
+                            <h3 class="countdown-title">NEXT UPDATE</h3>
+                        </div>
+                        <div id="countdown-display" class="countdown-display">
+                            <div class="countdown-time">Calculating...</div>
                         </div>
                     </div>
                 </div>
@@ -90,5 +102,4 @@ function renderHome() {
             </div>
         </div>
     `;
-
 }
