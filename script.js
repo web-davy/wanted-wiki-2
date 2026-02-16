@@ -37,6 +37,51 @@ if (lowEndToggle) {
     });
 }
 
+const sidebarToggle = document.getElementById("sidebar-toggle");
+const savedSidebarMode = localStorage.getItem("sidebarMode") === "true";
+
+if (savedSidebarMode) {
+    document.body.classList.add("left-sidebar-mode");
+    if (sidebarToggle) sidebarToggle.classList.add("active");
+}
+
+if (sidebarToggle) {
+    sidebarToggle.addEventListener("click", () => {
+        const isSidebar = document.body.classList.toggle("left-sidebar-mode");
+        sidebarToggle.classList.toggle("active", isSidebar);
+        localStorage.setItem("sidebarMode", isSidebar);
+
+        const header = document.querySelector('.fixed-header');
+        const pageWrapper = document.querySelector('.page-wrapper');
+
+        if (header && pageWrapper) {
+            if (isSidebar) {
+                header.style.height = '';
+                pageWrapper.style.paddingTop = '';
+                const savedWidth = localStorage.getItem('headerWidth');
+                if (savedWidth) {
+                    header.style.width = savedWidth + 'px';
+                    pageWrapper.style.paddingLeft = (parseInt(savedWidth) + 30) + 'px';
+                }
+            } else {
+                header.style.width = '';
+                pageWrapper.style.paddingLeft = '';
+                const savedHeight = localStorage.getItem('headerHeight');
+                if (savedHeight) {
+                    header.style.height = savedHeight + 'px';
+                    pageWrapper.style.paddingTop = (parseInt(savedHeight) + 30) + 'px';
+                }
+            }
+        }
+
+        if (audioUnlocked && clickSfx) {
+            clickSfx.currentTime = 0;
+            clickSfx.volume = 0.3;
+            clickSfx.play().catch(() => { });
+        }
+    });
+}
+
 if (volumeSlider) volumeSlider.value = DEFAULT_VOLUME;
 if (bgm) bgm.volume = DEFAULT_VOLUME;
 
@@ -342,41 +387,91 @@ function initHeaderResize() {
     if (!header || !resizeHandle || !pageWrapper) return;
 
     const BASE_HEIGHT = 180;
+    const BASE_WIDTH = 250;
+    const MIN_WIDTH = 150;
+    const MAX_WIDTH = 600;
 
+    // Check if sidebar mode is active
+    const isSidebarMode = () => document.body.classList.contains('left-sidebar-mode');
+
+    // Load saved dimensions
     const savedHeight = localStorage.getItem('headerHeight');
-    if (savedHeight) {
+    const savedWidth = localStorage.getItem('headerWidth');
+
+    // Update scale for top header
+    function updateScale(height) {
+        const scale = Math.max(0.5, Math.min(1, height / BASE_HEIGHT));
+        document.documentElement.style.setProperty('--header-scale', scale);
+    }
+
+    // Update scale for sidebar
+    function updateSidebarScale(width) {
+        // Calculate scale based on standard 250px width
+        // Allow it to go quite small (down to 0.4)
+        const scale = Math.max(0.4, Math.min(1.2, width / BASE_WIDTH));
+        document.documentElement.style.setProperty('--sidebar-scale', scale);
+    }
+
+    // Initialize scale
+    if (isSidebarMode()) {
+        const currentWidth = parseInt(header.style.width) || BASE_WIDTH;
+        updateSidebarScale(currentWidth);
+    }
+
+    if (savedHeight && !isSidebarMode()) {
         const height = parseInt(savedHeight);
         header.style.height = height + 'px';
-        updatePagePadding(height);
+        updatePagePadding(height, false);
         updateScale(height);
+    } else if (savedWidth && isSidebarMode()) {
+        const width = parseInt(savedWidth);
+        header.style.width = width + 'px';
+        updatePagePadding(width, true);
+        updateSidebarScale(width);
     }
 
     let isResizing = false;
-    let startY = 0;
-    let startHeight = 0;
+    let startX = 0, startY = 0;
+    let startWidth = 0, startHeight = 0;
 
     resizeHandle.addEventListener('mousedown', (e) => {
         if (window.innerWidth <= 1024) return;
 
         isResizing = true;
-        startY = e.clientY;
-        startHeight = header.offsetHeight;
+        const sidebar = isSidebarMode();
+
+        if (sidebar) {
+            startX = e.clientX;
+            startWidth = header.offsetWidth;
+            document.body.style.cursor = 'ew-resize';
+        } else {
+            startY = e.clientY;
+            startHeight = header.offsetHeight;
+            document.body.style.cursor = 'ns-resize';
+        }
 
         document.body.style.userSelect = 'none';
-        document.body.style.cursor = 'ns-resize';
-
         e.preventDefault();
     });
 
     document.addEventListener('mousemove', (e) => {
         if (!isResizing) return;
 
-        const deltaY = e.clientY - startY;
-        const newHeight = Math.max(100, Math.min(600, startHeight + deltaY));
+        const sidebar = isSidebarMode();
 
-        header.style.height = newHeight + 'px';
-        updatePagePadding(newHeight);
-        updateScale(newHeight);
+        if (sidebar) {
+            const deltaX = e.clientX - startX;
+            const newWidth = Math.max(MIN_WIDTH, Math.min(MAX_WIDTH, startWidth + deltaX));
+            header.style.width = newWidth + 'px';
+            updatePagePadding(newWidth, true);
+            updateSidebarScale(newWidth);
+        } else {
+            const deltaY = e.clientY - startY;
+            const newHeight = Math.max(100, Math.min(600, startHeight + deltaY));
+            header.style.height = newHeight + 'px';
+            updatePagePadding(newHeight, false);
+            updateScale(newHeight);
+        }
     });
 
     document.addEventListener('mouseup', () => {
@@ -386,12 +481,26 @@ function initHeaderResize() {
         document.body.style.userSelect = '';
         document.body.style.cursor = '';
 
-        const currentHeight = header.offsetHeight;
-        localStorage.setItem('headerHeight', currentHeight);
+        const sidebar = isSidebarMode();
+
+        if (sidebar) {
+            const width = header.offsetWidth;
+            localStorage.setItem('headerWidth', width);
+            // Ensure scale is saved/updated one last time
+            updateSidebarScale(width);
+        } else {
+            localStorage.setItem('headerHeight', header.offsetHeight);
+        }
     });
 
-    function updatePagePadding(headerHeight) {
-        pageWrapper.style.paddingTop = (headerHeight + 30) + 'px';
+    function updatePagePadding(size, isSidebar) {
+        if (isSidebar) {
+            pageWrapper.style.paddingLeft = (size + 30) + 'px';
+            pageWrapper.style.paddingTop = '';
+        } else {
+            pageWrapper.style.paddingTop = (size + 30) + 'px';
+            pageWrapper.style.paddingLeft = '';
+        }
     }
 
     function updateScale(headerHeight) {
@@ -757,7 +866,11 @@ function renderSearchItem(item) {
         rarityKey = null;
     }
 
-    return renderCard(item, rarityKey, content);
+    if (item.searchType === 'npc') {
+        return renderCard(item, rarityKey, content); // NPCs use PNG
+    } else {
+        return renderCardJPG(item, rarityKey, content); // All other items use JPG
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
