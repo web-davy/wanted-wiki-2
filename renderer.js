@@ -58,3 +58,26 @@ function renderPage(title, sortButtons, cards) {
 function renderStat(label, value) {
   return `<p><strong>${label}:</strong> ${value}</p>`;
 }
+
+function renderExpandableCardJPG(item, rarityKey, visibleContent, hiddenContent) {
+  const slug = generateSlug(item.name);
+  const rarity = RARITIES[rarityKey] || DIFFICULTIES[rarityKey] || TEAMS[rarityKey];
+  const rarityClass = rarity ? rarity.class : '';
+  const rarityName = rarity ? rarity.name : '';
+  const cardId = `card-${slug}-${Math.random().toString(36).substr(2, 9)}`;
+
+  return `
+    <div class="card">
+      <img src="images/${slug}.jpg" alt="${item.name}" 
+           style="width:100%; height:auto; margin-bottom:15px; border-radius:4px; 
+                  box-shadow:0 0 10px rgba(255,255,255,0.2);">
+      ${rarityName ? `<div class="rarity ${rarityClass}">${rarityName}</div>` : ''}
+      ${visibleContent}
+      <div class="card-details collapsed" id="${cardId}-details">
+        ${hiddenContent}
+      </div>
+      <button class="card-details-toggle" onclick="toggleCardDetails('${cardId}')">
+        Show more...
+      </button>
+    </div>`;
+}

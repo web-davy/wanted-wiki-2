@@ -771,3 +771,19 @@ document.addEventListener('DOMContentLoaded', () => {
         bgm.volume = volumeSlider.value;
     }
 });
+
+function toggleCardDetails(cardId) {
+    const detailsElement = document.getElementById(`${cardId}-details`);
+    const button = event.target;
+
+    if (!detailsElement || !button) return;
+
+    const isCollapsed = detailsElement.classList.toggle('collapsed');
+    button.textContent = isCollapsed ? 'Show more...' : 'Show less...';
+
+    if (audioUnlocked && clickSfx) {
+        clickSfx.currentTime = 0;
+        clickSfx.volume = 0.2;
+        clickSfx.play().catch(() => { });
+    }
+}
