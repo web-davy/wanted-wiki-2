@@ -1,12 +1,14 @@
-function renderCard(item, rarityKey, content) {
-  const slug = generateSlug(item.name);
+function renderCard(item, rarityKey, content, folder = null) {
+  const name = item.name || item.title || "";
+  const slug = item.id || generateSlug(name);
   const rarity = RARITIES[rarityKey] || DIFFICULTIES[rarityKey] || TEAMS[rarityKey];
   const rarityClass = rarity ? rarity.class : '';
   const rarityName = rarity ? rarity.name : '';
+  const imagePath = folder ? `images/${folder}/${slug}.png` : `images/${slug}.png`;
 
   return `
     <div class="card">
-      <img src="images/${slug}.png" alt="${item.name}" 
+      <img src="${imagePath}" alt="${name}" 
            style="width:100%; height:auto; margin-bottom:15px; border-radius:4px; 
                   box-shadow:0 0 10px rgba(255,255,255,0.2);">
       ${rarityName ? `<div class="rarity ${rarityClass}">${rarityName}</div>` : ''}
@@ -14,15 +16,17 @@ function renderCard(item, rarityKey, content) {
     </div>`;
 }
 
-function renderCardJPG(item, rarityKey, content) {
-  const slug = generateSlug(item.name);
+function renderCardJPG(item, rarityKey, content, folder = null) {
+  const name = item.name || item.title || "";
+  const slug = item.id || generateSlug(name);
   const rarity = RARITIES[rarityKey] || DIFFICULTIES[rarityKey] || TEAMS[rarityKey];
   const rarityClass = rarity ? rarity.class : '';
   const rarityName = rarity ? rarity.name : '';
+  const imagePath = folder ? `images/${folder}/${slug}.jpg` : `images/${slug}.jpg`;
 
   return `
     <div class="card">
-      <img src="images/${slug}.jpg" alt="${item.name}" 
+      <img src="${imagePath}" alt="${name}" 
            style="width:100%; height:auto; margin-bottom:15px; border-radius:4px; 
                   box-shadow:0 0 10px rgba(255,255,255,0.2);">
       ${rarityName ? `<div class="rarity ${rarityClass}">${rarityName}</div>` : ''}
@@ -46,9 +50,10 @@ function renderSortButtons(buttons, activeSort) {
     </div>`;
 }
 
-function renderPage(title, sortButtons, cards) {
+function renderPage(title, sortButtons, cards, disclaimer = null) {
   return `
     <h2>${title}</h2>
+    ${disclaimer ? `<div class="page-disclaimer">${disclaimer}</div>` : ''}
     ${sortButtons}
     <div class="card-grid">
       ${cards.join('')}
@@ -56,28 +61,42 @@ function renderPage(title, sortButtons, cards) {
 }
 
 function renderStat(label, value) {
+  if (value === undefined || value === null || value === '' || value === '?' || value === '? - ?') return '';
   return `<p><strong>${label}:</strong> ${value}</p>`;
 }
 
-function renderExpandableCardJPG(item, rarityKey, visibleContent, hiddenContent) {
-  const slug = generateSlug(item.name);
+function renderExpandableCard(item, rarityKey, visibleContent, hiddenContent, ext = 'jpg', folder = null) {
+  const name = item.name || item.title || "";
+  const slug = item.id || generateSlug(name);
   const rarity = RARITIES[rarityKey] || DIFFICULTIES[rarityKey] || TEAMS[rarityKey];
   const rarityClass = rarity ? rarity.class : '';
   const rarityName = rarity ? rarity.name : '';
   const cardId = `card-${slug}-${Math.random().toString(36).substr(2, 9)}`;
+  const showButton = item.showMoreButton !== false && hiddenContent && hiddenContent.trim() !== '';
+  const imagePath = folder ? `images/${folder}/${slug}.${ext}` : `images/${slug}.${ext}`;
 
   return `
     <div class="card">
-      <img src="images/${slug}.jpg" alt="${item.name}" 
+      <img src="${imagePath}" alt="${item.name}" 
            style="width:100%; height:auto; margin-bottom:15px; border-radius:4px; 
                   box-shadow:0 0 10px rgba(255,255,255,0.2);">
       ${rarityName ? `<div class="rarity ${rarityClass}">${rarityName}</div>` : ''}
       ${visibleContent}
-      <div class="card-details collapsed" id="${cardId}-details">
+      ${hiddenContent && hiddenContent.trim() !== '' ? `
+      <div class="card-details ${showButton ? 'collapsed' : ''}" id="${cardId}-details">
         ${hiddenContent}
-      </div>
+      </div>` : ''}
+      ${showButton ? `
       <button class="card-details-toggle" onclick="toggleCardDetails('${cardId}')">
         Show more...
-      </button>
+      </button>` : ''}
     </div>`;
+}
+
+function renderExpandableCardJPG(item, rarityKey, visibleContent, hiddenContent, folder = null) {
+  return renderExpandableCard(item, rarityKey, visibleContent, hiddenContent, 'jpg', folder);
+}
+
+function renderExpandableCardPNG(item, rarityKey, visibleContent, hiddenContent, folder = null) {
+  return renderExpandableCard(item, rarityKey, visibleContent, hiddenContent, 'png', folder);
 }

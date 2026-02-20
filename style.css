@@ -163,7 +163,7 @@ body::after {
 
 .neon-title {
     font-size: clamp(0.75rem, 3vw, 1.75rem);
-    /* Reduced by 50% */
+
     letter-spacing: clamp(2px, 1vw, 8px);
     font-weight: bold;
     text-transform: uppercase;
@@ -269,14 +269,22 @@ body::after {
     overflow: visible;
 }
 
-.card>* {
+.card>*,
+.card-details>* {
     display: block;
-    padding: 6px 0;
+    padding: 8px 0;
     transform: skew(1deg);
 }
 
-.card>*+* {
+.card>*+*,
+.card-details>*+* {
     border-top: 1px solid rgba(255, 255, 255, .08);
+}
+
+.card p strong {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: rgba(255, 255, 255, 0.2);
 }
 
 .card::before {
@@ -327,6 +335,12 @@ body::after {
     border-color: #0f0;
     box-shadow: 0 0 8px #0f0;
     text-shadow: 0 0 5px #0f0
+}
+
+.rarity-mission {
+    color: #99f;
+    border-color: #99f;
+    text-shadow: 0 0 10px #99f;
 }
 
 .rarity-common {
@@ -404,6 +418,17 @@ h2 {
     font-size: clamp(1.5rem, 5vw, 2.2rem);
     letter-spacing: clamp(4px, 2vw, 10px);
     text-shadow: 0 0 10px var(--fg2);
+    text-transform: uppercase;
+}
+
+.page-disclaimer {
+    text-align: center;
+    font-style: italic;
+    color: #f00;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    margin-bottom: 30px;
+    font-size: 1rem;
+    letter-spacing: 1px;
     text-transform: uppercase;
 }
 
@@ -757,7 +782,7 @@ body.low-end-mode .sort-btn {
     font-family: 'Courier New', monospace;
 }
 
-/* Hero Section */
+
 .hero-section {
     flex: 1;
     display: flex;
@@ -1250,7 +1275,7 @@ body.low-end-mode .sort-btn {
         font-size: 16px;
     }
 
-    /* Hide Sidebar Toggle on Mobile */
+
     #sidebar-toggle {
         display: none !important;
     }
@@ -1426,7 +1451,7 @@ body.low-end-mode .sort-btn {
     transform: skew(1deg) translateY(1px);
 }
 
-/* Left Sidebar Mode */
+
 body.left-sidebar-mode .fixed-header {
     top: 0;
     left: 0;
@@ -1444,7 +1469,7 @@ body.left-sidebar-mode .fixed-header {
 
 
 
-/* Left Sidebar Mode */
+
 body.left-sidebar-mode .fixed-header {
     top: 0;
     left: 0;
@@ -1457,13 +1482,13 @@ body.left-sidebar-mode .fixed-header {
     border-bottom: none;
     border-right: 2px solid var(--border);
     overflow-y: hidden;
-    /* Hide scrollbar when retracted */
+
     overflow-x: hidden;
     align-items: center;
     transition: padding 0.1s;
 }
 
-/* Show scrollbar only when not tiny */
+
 body.left-sidebar-mode .fixed-header:hover {
     overflow-y: auto;
 }
@@ -1471,17 +1496,17 @@ body.left-sidebar-mode .fixed-header:hover {
 body.left-sidebar-mode .header-resize-handle {
     display: block;
     right: -8px;
-    /* Wider hit area */
+
     left: auto;
     bottom: auto;
     top: 50%;
     transform: translateY(-50%);
     width: 15px;
-    /* Wider handle */
+
     height: 80px;
     cursor: ew-resize;
     z-index: 2000;
-    /* Ensure on top */
+
 }
 
 body.left-sidebar-mode .header-resize-handle::before {
@@ -1498,15 +1523,15 @@ body.left-sidebar-mode .header-resize-handle:hover {
 
 body.left-sidebar-mode .neon-title {
     font-size: 1.8rem;
-    /* Restored to full size */
+
     letter-spacing: 4px;
-    /* Restored to full spacing */
+
     margin: 0 0 20px 0;
     padding: 0;
     text-align: center;
     width: 100%;
     overflow: hidden;
-    /* Hide if too small */
+
     white-space: nowrap;
 }
 
@@ -1514,10 +1539,10 @@ body.left-sidebar-mode .top-tabs {
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: space-between;
-    /* Distribute items */
+
     align-items: center;
     gap: 10px;
-    /* Min gap */
+
     margin-top: 10px;
     padding: 10px 0;
     width: 100%;
@@ -1525,20 +1550,20 @@ body.left-sidebar-mode .top-tabs {
     overflow: hidden;
 }
 
-/* Ensure mobile controls (search) are visible in sidebar mode */
+
 body.left-sidebar-mode .mobile-controls-group {
     display: flex !important;
     width: 100%;
     justify-content: center;
     padding-bottom: 20px;
     margin-top: auto;
-    /* Push to bottom */
+
     flex-shrink: 0;
 }
 
 body.left-sidebar-mode .tab {
     flex: 0 0 40px;
-    /* Fixed height, don't stretch */
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1584,7 +1609,7 @@ body.left-sidebar-mode .bottom-corner-link {
     left: auto;
 }
 
-/* Sidebar Search Bar Styling */
+
 body.left-sidebar-mode .search-container {
     margin: 0 0 15px 0;
     width: 100%;

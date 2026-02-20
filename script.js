@@ -139,22 +139,35 @@ if (skipGarageIntro && garageIntro) {
 
 function preloadImages() {
     const imageSet = new Set();
-    const datasets = [
-        window.VALUABLES,
-        window.ATMS,
-        window.WEAPONS,
-        window.VEHICLES,
-        window.MISSIONS,
-        window.NPCS,
-        window.LOCATIONS
+    const getFolder = (item) => {
+        if (datasets[0] === item) return 'valuables'; // This logic is tricky, better to explicitly pass
+        // Actually it's easier to just map them
+        return null;
+    };
+
+    const datasetFolders = [
+        { data: window.VALUABLES_DATA || window.VALUABLES, folder: 'valuables' },
+        { data: window.CHRISTMAS_VALUABLES_DATA, folder: 'valuables' },
+        { data: window.ATMS_DATA || window.ATMS, folder: 'atms&vaults' },
+        { data: window.VAULTS_DATA, folder: 'atms&vaults' },
+        { data: window.GUNS_DATA, folder: 'weapons' },
+        { data: window.EXPLOSIVES_DATA, folder: 'weapons' },
+        { data: window.TOOLS_DATA, folder: 'weapons' },
+        { data: window.VEHICLES_DATA || window.VEHICLES, folder: 'vehicles' },
+        { data: window.MISSIONS_DATA || window.MISSIONS, folder: 'missions' },
+        { data: window.CHRISTMAS_MISSIONS_DATA, folder: 'missions' },
+        { data: window.NPCS_DATA || window.NPCS, folder: 'npcs' },
+        { data: window.LOCATIONS_DATA || window.LOCATIONS, folder: 'locations' },
+        { data: window.GUN_CRATES_DATA || window.GUN_CRATES, folder: 'crates' }
     ];
-    datasets.forEach(dataset => {
-        if (!Array.isArray(dataset)) return;
-        dataset.forEach(item => {
-            if (item.image) imageSet.add(item.image);
-            if (Array.isArray(item.images)) {
-                item.images.forEach(img => imageSet.add(img));
-            }
+
+    datasetFolders.forEach(entry => {
+        if (!Array.isArray(entry.data)) return;
+        entry.data.forEach(item => {
+            const name = item.name || item.title || "";
+            const slug = item.id || (typeof generateSlug === 'function' ? generateSlug(name) : name.toLowerCase().replace(/\s+/g, '-'));
+            const ext = entry.folder === 'npcs' ? 'png' : 'jpg';
+            imageSet.add(`images/${entry.folder}/${slug}.${ext}`);
         });
     });
 
@@ -757,7 +770,9 @@ function performSearch(query) {
         }
     };
 
-    checkData((typeof WEAPONS_DATA !== 'undefined' ? WEAPONS_DATA : window.WEAPONS), 'weapon', 'WEAPON');
+    checkData((typeof GUNS_DATA !== 'undefined' ? GUNS_DATA : []), 'weapon', 'WEAPON');
+    checkData((typeof EXPLOSIVES_DATA !== 'undefined' ? EXPLOSIVES_DATA : []), 'weapon', 'WEAPON');
+    checkData((typeof TOOLS_DATA !== 'undefined' ? TOOLS_DATA : []), 'weapon', 'WEAPON');
     checkData((typeof VEHICLES_DATA !== 'undefined' ? VEHICLES_DATA : window.VEHICLES), 'vehicle', 'VEHICLE');
     checkData((typeof ATMS_DATA !== 'undefined' ? ATMS_DATA : window.ATMS), 'atm', 'ATM');
     checkData((typeof GUN_CRATES_DATA !== 'undefined' ? GUN_CRATES_DATA : window.GUN_CRATES), 'guncrate', 'GUN CRATE');
@@ -805,7 +820,8 @@ function renderSearchItem(item) {
         content = `
                 ${renderPriceTag(item.contractPrice)}
                 <h3>${item.name}</h3>
-                ${renderStat('Re-buy', formatPrice(item.repairPrice))}
+                ${renderStat('Requirements', item.requirements)}
+                ${renderStat('Re-buy', formatPrice(item.reBuyPrice))}
                 ${renderStat('Ammo', item.stats.ammo)}
                 ${renderStat('Ammo Cost', item.stats.ammoPrice)}
                 ${renderStat('Damage', item.stats.damage)}
@@ -826,7 +842,7 @@ function renderSearchItem(item) {
                 `;
         } else if (item.type === 'flying') {
             statsHtml = `
-                    ${renderStat('Top Speed', `${item.stats.topSpeed} Knots`)}
+                    ${renderStat('Top Speed', `${item.stats.topSpeed}%`)}
                     ${renderStat('Handling', `${item.stats.handling}%`)}
                     ${renderStat('Spool Time', `${item.stats.spoolTime}s`)}
                     ${renderStat('Max Health', item.stats.maxHealth)}
@@ -837,6 +853,7 @@ function renderSearchItem(item) {
         content = `
                 ${renderPriceTag(item.contractPrice)}
                 <h3>${item.name}</h3>
+                ${renderStat('Requirements', item.requirements)}
                 ${renderStat('Repair (fully destroyed)', formatPrice(item.repairPrice))}
                 ${statsHtml}
             `;
@@ -866,11 +883,11 @@ function renderSearchItem(item) {
         slug = item.id;
         content = `
                 <h3>${item.title}</h3>
+                ${renderStat('Category', item.missionType)}
                 ${renderStat('Location', item.location)}
                 ${renderStat('Description', item.description)}
-                ${renderStat('Requirements', item.requirements.join(', '))}
                 ${renderStat('How', item.howToComplete)}
-                ${renderStat('Reward', item.rewards.join(', '))}
+                ${renderStat('Reward', (item.rewards || []).join(', '))}
             `;
         rarityKey = item.difficulty;
     } else if (item.searchType === 'npc') {
@@ -888,10 +905,22 @@ function renderSearchItem(item) {
         rarityKey = null;
     }
 
+    const folderMap = {
+        'weapon': 'weapons',
+        'vehicle': 'vehicles',
+        'atm': 'atms&vaults',
+        'valuable': 'valuables',
+        'guncrate': 'crates',
+        'mission': 'missions',
+        'npc': 'npcs',
+        'location': 'locations'
+    };
+    const folder = folderMap[item.searchType];
+
     if (item.searchType === 'npc') {
-        return renderCard(item, rarityKey, content); // NPCs use PNG
+        return renderCard(item, rarityKey, content, folder);
     } else {
-        return renderCardJPG(item, rarityKey, content); // All other items use JPG
+        return renderCardJPG(item, rarityKey, content, folder);
     }
 }
 

@@ -1,4 +1,5 @@
 const RARITIES = {
+  MISSION: { name: "Mission", class: "rarity-mission", color: "#99f" },
   COMMON: { name: "Common", class: "rarity-common", color: "#999" },
   UNCOMMON: { name: "Uncommon", class: "rarity-uncommon", color: "#0f0" },
   EPIC: { name: "Epic", class: "rarity-epic", color: "#c0f" },
@@ -25,6 +26,7 @@ const generateSlug = (name) => {
 };
 
 const formatPrice = (price) => {
+  if (typeof price !== 'number') return undefined;
   return `<img src="images/cash.png" alt="$" style="height: 16px; width: auto; vertical-align: middle; margin-right: 2px;">${price.toLocaleString()}`;
 };
 
