@@ -10,24 +10,24 @@ function renderATMs(sort = "high") {
   });
 
   const atmCards = sortedATMs.map(item => {
-    const content = `
+    const visibleContent = `
       <h3>${item.name}</h3>
-      ${renderStat('Rarity', item.rarityPercent)}
       ${renderStat('Cash', formatPrice(item.price))}
     `;
-    return renderCardJPG(item, item.rarity, content);
+    const hiddenContent = renderStat('Rarity', item.rarityPercent);
+    return renderExpandableCardJPG(item, item.rarity, visibleContent, hiddenContent, 'atms&vaults');
   });
 
   const vaultCards = sortedVaults.map(item => {
     const priceDisplay = (typeof item.priceMin === 'number' && typeof item.priceMax === 'number')
       ? `${formatPrice(item.priceMin)} - ${formatPrice(item.priceMax)}`
       : '? - ?';
-    const content = `
+    const visibleContent = `
       <h3>${item.name}</h3>
-      ${renderStat('Rarity', item.rarityPercent)}
       ${renderStat('Cash', priceDisplay)}
     `;
-    return renderCardJPG(item, item.rarity, content);
+    const hiddenContent = renderStat('Rarity', item.rarityPercent);
+    return renderExpandableCardJPG(item, item.rarity, visibleContent, hiddenContent, 'atms&vaults');
   });
 
   const sortButtons = renderSortButtons([
@@ -36,6 +36,7 @@ function renderATMs(sort = "high") {
   ], sort);
 
   const atmSection = `
+    <h3 style="margin: 20px 0 10px;">ATMs</h3>
     <div class="card-grid">
       ${atmCards.join('')}
     </div>
@@ -43,6 +44,7 @@ function renderATMs(sort = "high") {
 
   const vaultSection = `
     <div style="margin: 40px 0; border-bottom: 2px solid #fff; opacity: 0.3;"></div>
+    <h3 style="margin: 20px 0 10px;">Vaults</h3>
     <div class="card-grid">
       ${vaultCards.join('')}
     </div>

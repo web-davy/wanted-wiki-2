@@ -1,4 +1,6 @@
 function renderVehicles(sort = "high") {
+  const renderStatSuffix = (label, val, suffix) => val !== undefined && val !== null ? renderStat(label, `${val}${suffix}`) : '';
+
   const groundVehicles = VEHICLES_DATA.filter(v => v.type === 'ground');
   const flyingVehicles = VEHICLES_DATA.filter(v => v.type === 'flying');
 
@@ -18,29 +20,18 @@ function renderVehicles(sort = "high") {
       <h3>${item.name}</h3>
     `;
     const hiddenContent = `
+      ${renderStat('Requirements', item.requirements)}
       ${renderStat('Repair', formatPrice(item.repairPrice))}
-      ${renderStat('Top Speed', `${item.stats.topSpeed} MPH`)}
-      ${renderStat('Acceleration', `${item.stats.acceleration}%`)}
-      ${renderStat('Braking', `${item.stats.braking}%`)}
+      ${renderStatSuffix('Top Speed', item.stats.topSpeed, '%')}
+      ${renderStatSuffix('Acceleration', item.stats.acceleration, '%')}
+      ${renderStatSuffix('Braking', item.stats.braking, '%')}
       ${renderStat('Max Health', item.stats.maxHealth)}
       ${renderStat('Armor', item.stats.armor)}
     `;
 
     const cardId = `card-${slug}-${Math.random().toString(36).substr(2, 9)}`;
 
-    return `
-      <div class="card">
-        <img src="images/${slug}.jpg" alt="${item.name}" 
-             style="width:100%; height:auto; margin-bottom:15px; border-radius:4px; 
-                    box-shadow:0 0 10px rgba(255,255,255,0.2);">
-        ${visibleContent}
-        <div class="card-details collapsed" id="${cardId}-details">
-          ${hiddenContent}
-        </div>
-        <button class="card-details-toggle" onclick="toggleCardDetails('${cardId}')">
-          Show more...
-        </button>
-      </div>`;
+    return renderExpandableCardJPG(item, null, visibleContent, hiddenContent, 'vehicles');
   });
 
   const flyingCards = sortedFlying.map(item => {
@@ -51,29 +42,18 @@ function renderVehicles(sort = "high") {
       <h3>${item.name}</h3>
     `;
     const hiddenContent = `
+      ${renderStat('Requirements', item.requirements)}
       ${renderStat('Repair', formatPrice(item.repairPrice))}
-      ${renderStat('Top Speed', `${item.stats.topSpeed} Knots`)}
-      ${renderStat('Handling', `${item.stats.handling}%`)}
-      ${renderStat('Spool Time', `${item.stats.spoolTime}s`)}
+      ${renderStatSuffix('Top Speed', item.stats.topSpeed, '%')}
+      ${renderStatSuffix('Handling', item.stats.handling, '%')}
+      ${renderStatSuffix('Spool Time', item.stats.spoolTime, 's')}
       ${renderStat('Max Health', item.stats.maxHealth)}
       ${renderStat('Armor', item.stats.armor)}
     `;
 
     const cardId = `card-${slug}-${Math.random().toString(36).substr(2, 9)}`;
 
-    return `
-      <div class="card">
-        <img src="images/${slug}.jpg" alt="${item.name}" 
-             style="width:100%; height:auto; margin-bottom:15px; border-radius:4px; 
-                    box-shadow:0 0 10px rgba(255,255,255,0.2);">
-        ${visibleContent}
-        <div class="card-details collapsed" id="${cardId}-details">
-          ${hiddenContent}
-        </div>
-        <button class="card-details-toggle" onclick="toggleCardDetails('${cardId}')">
-          Show more...
-        </button>
-      </div>`;
+    return renderExpandableCardJPG(item, null, visibleContent, hiddenContent, 'vehicles');
   });
 
   const sortButtons = renderSortButtons([
@@ -82,6 +62,7 @@ function renderVehicles(sort = "high") {
   ], sort);
 
   const groundSection = `
+    <h3 style="margin: 20px 0 10px;">Ground Vehicles</h3>
     <div class="card-grid">
       ${groundCards.join('')}
     </div>
@@ -89,6 +70,7 @@ function renderVehicles(sort = "high") {
 
   const flyingSection = `
     <div style="margin: 40px 0; border-bottom: 2px solid #fff; opacity: 0.3;"></div>
+    <h3 style="margin: 20px 0 10px;">Air Vehicles</h3>
     <div class="card-grid">
       ${flyingCards.join('')}
     </div>

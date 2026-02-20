@@ -1,5 +1,5 @@
 const UPDATES = [
-    { version: "20/02/2026", description: "Major Content Update", color: "#ffaa00" },
+    { version: "20/02/2026", description: "Major Content Update", color: "#39ff14" },
     { version: "27/12/2025", description: "Removed Christmass Event", color: "#ff3333" },
     { version: "12/12/2025", description: "Added Christmass Event", color: "#39ff14" }
 ];
@@ -104,4 +104,3 @@ function renderHome() {
         </div>
     `;
 }
-

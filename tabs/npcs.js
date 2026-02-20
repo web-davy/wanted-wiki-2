@@ -13,25 +13,7 @@ function renderNPCs(order = "az") {
     `;
 
     const slug = generateSlug(item.name);
-    const rarity = TEAMS[item.team];
-    const rarityClass = rarity ? rarity.class : '';
-    const rarityName = rarity ? rarity.name : '';
-    const cardId = `card-${slug}-${Math.random().toString(36).substr(2, 9)}`;
-
-    return `
-      <div class="card">
-        <img src="images/${slug}.png" alt="${item.name}" 
-             style="width:100%; height:auto; margin-bottom:15px; border-radius:4px; 
-                    box-shadow:0 0 10px rgba(255,255,255,0.2);">
-        ${rarityName ? `<div class="rarity ${rarityClass}">${rarityName}</div>` : ''}
-        ${visibleContent}
-        <div class="card-details collapsed" id="${cardId}-details">
-          ${hiddenContent}
-        </div>
-        <button class="card-details-toggle" onclick="toggleCardDetails('${cardId}')">
-          Show more...
-        </button>
-      </div>`;
+    return renderExpandableCardPNG(item, item.team, visibleContent, hiddenContent, 'npcs');
   });
 
   const sortButtons = renderSortButtons([
@@ -39,7 +21,7 @@ function renderNPCs(order = "az") {
     { label: 'Z-A', value: 'za', onClick: "sortNPCs('za')" }
   ], order);
 
-  return renderPage('NPCs', sortButtons, cards);
+  return renderPage('NPCs', sortButtons, cards, 'This page is curently unfinished and being worked on');
 }
 
 function sortNPCs(order) {
