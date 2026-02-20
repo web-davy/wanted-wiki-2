@@ -16,7 +16,7 @@ const VALUABLES_DATA = [
   { name: "Gold Chain", showMoreButton: false, rarity: "EPIC", category: "Jewerly", price: 900, weight: 2 },
   { name: "Emerald Ring", showMoreButton: false, rarity: "EPIC", category: "Jewerly", price: 2000, weight: 2 },
   { name: "Pearl Necklace", showMoreButton: false, rarity: "LEGENDARY", category: "Jewerly", price: 6666, weight: 2 },
-  { name: "Amethyst Ring", showMoreButton: false, rarity: "LEGENDARY", category: "Jewerly", price: 7000, weight: 1 },
+  { name: "Amethyst Ring", showMoreButton: false, rarity: "LEGENDARY", category: "Jewerly", price: 20000, weight: 1 },
   { name: "Diamond Ring", showMoreButton: false, rarity: "LEGENDARY", category: "Jewerly", price: 10000, weight: 1 },
   { name: "Rollie", showMoreButton: false, rarity: "LEGENDARY", category: "Jewerly", price: 50000, weight: 2 },
 
@@ -58,3 +58,4 @@ const CHRISTMAS_VALUABLES_DATA = [
   { name: "Snowglobe", showMoreButton: false, rarity: "CHRISTMAS", price: 8888, priceNonContract: false, weight: 6 },
   { name: "White Ornament", showMoreButton: false, rarity: "CHRISTMAS", price: 15000, priceNonContract: false, weight: 1 }
 ];
+
