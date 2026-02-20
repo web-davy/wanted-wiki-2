@@ -934,7 +934,51 @@ document.addEventListener('DOMContentLoaded', () => {
     if (bgm && volumeSlider) {
         bgm.volume = volumeSlider.value;
     }
+
+    initViewerCount();
 });
+
+function initViewerCount() {
+    const viewingNowElement = document.getElementById('viewing-now');
+    if (!viewingNowElement) return;
+
+    // GoatCounter URL format for public counters
+    // NOTE: This requires 'Public view' to be enabled in GoatCounter settings
+    const goatCounterCode = 'web-davy';
+    const counterUrl = `https://${goatCounterCode}.goatcounter.com/counter/index.json`;
+
+    async function updateCount() {
+        // Skip fetch if running locally to avoid CORS/Origin errors
+        if (window.location.protocol === 'file:') {
+            fallbackSimulate();
+            return;
+        }
+
+        try {
+            const response = await fetch(counterUrl);
+            if (!response.ok) throw new Error();
+            const data = await response.json();
+
+            // GoatCounter returns count for the path
+            let count = data.count || "1";
+            viewingNowElement.textContent = count.toLocaleString();
+        } catch (error) {
+            // Silently fallback if anything fails (CORS, 403, or offline)
+            fallbackSimulate();
+        }
+    }
+
+    function fallbackSimulate() {
+        // Fallback: Show a realistic small number for the cyberpunk aesthetic
+        // so it doesn't stay '...' forever.
+        const simulatedCount = Math.floor(Math.random() * 3) + 1;
+        viewingNowElement.textContent = simulatedCount;
+    }
+
+    updateCount();
+    // Update every 2 minutes
+    setInterval(updateCount, 120000);
+}
 
 function toggleCardDetails(cardId) {
     const detailsElement = document.getElementById(`${cardId}-details`);

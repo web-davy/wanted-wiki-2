@@ -19,6 +19,7 @@
 
     <link rel="preload" as="image" href="images/background.png" type="image/png">
     <link rel="stylesheet" href="style.css">
+    <script data-goatcounter="https://web-davy.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 
     <script>
         if (localStorage.getItem("skipGarageIntro") === "true") {
@@ -618,6 +619,10 @@
     </div>
 
     <a href="https://discord.gg/3NqFCz5sRx" class="bottom-corner-link">Support/Community Server</a>
+    <div id="viewer-count" class="viewer-count">
+        <span class="viewer-dot"></span>
+        <span class="viewer-text">UPLINK ACTIVE: <span id="viewing-now">...</span> SESSIONS</span>
+    </div>
 
     <audio id="bgm" src="sounds/background.mp3" loop preload="auto"></audio>
     <audio id="sfx-click" src="sounds/click.mp3" preload="auto"></audio>
