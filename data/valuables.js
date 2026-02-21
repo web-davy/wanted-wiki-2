@@ -4,7 +4,7 @@ const VALUABLES_DATA = [
   { name: "Gold Bar", showMoreButton: false, rarity: "UNCOMMON", category: "Gems", price: 400, weight: 2 },
   { name: "Sapphire", showMoreButton: false, rarity: "EPIC", category: "Gems", price: 2500, weight: 4 },
   { name: "Ruby", showMoreButton: false, rarity: "MYTHIC", category: "Gems", price: 10000, weight: 4 },
-  { name: "Emerald", showMoreButton: false, rarity: "MYTHIC", category: "Gems", price: 25000, weight: 4 },
+  { name: "Emerald", showMoreButton: false, rarity: "LEGENDARY", category: "Gems", price: 25000, weight: 4 },
   { name: "Amethyst", showMoreButton: false, rarity: "LEGENDARY", category: "Gems", price: 30000, weight: 4 },
   { name: "Diamond", showMoreButton: false, rarity: "LEGENDARY", category: "Gems", price: 50000, weight: 4 },
 
@@ -28,7 +28,7 @@ const VALUABLES_DATA = [
   { name: "GoldWatch", showMoreButton: false, rarity: "UNCOMMON", category: "Electronics", price: 400, weight: 2 },
   { name: "PearPad", showMoreButton: false, rarity: "COMMON", category: "Electronics", price: 500, weight: 3 },
   { name: "GoldPods", showMoreButton: false, rarity: "UNCOMMON", category: "Electronics", price: 600, weight: 3 },
-  { name: "GoldPhone", showMoreButton: false, rarity: "COMMON", category: "Electronics", price: 700, weight: 2 },
+  { name: "GoldPhone", showMoreButton: false, rarity: "UNCOMMON", category: "Electronics", price: 700, weight: 2 },
   { name: "PSU", showMoreButton: false, rarity: "COMMON", category: "Electronics", price: 800, weight: 6 },
   { name: "GoldPad", showMoreButton: false, rarity: "EPIC", category: "Electronics", price: 900, weight: 3 },
   { name: "PearBook", showMoreButton: false, rarity: "UNCOMMON", category: "Electronics", price: 1000, weight: 6 },
@@ -58,4 +58,5 @@ const CHRISTMAS_VALUABLES_DATA = [
   { name: "Snowglobe", showMoreButton: false, rarity: "CHRISTMAS", price: 8888, priceNonContract: false, weight: 6 },
   { name: "White Ornament", showMoreButton: false, rarity: "CHRISTMAS", price: 15000, priceNonContract: false, weight: 1 }
 ];
+
 
